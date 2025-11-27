@@ -8,6 +8,8 @@
 //     });
 // });
 
+
+// Verifica el boton aplicar y aplica los cambios
 const jobListingSections = document.querySelector(".jobs-listings");
 
 jobListingSections?.addEventListener("click", event => {
@@ -20,10 +22,10 @@ jobListingSections?.addEventListener("click", event => {
     }
 });
 
-// Filter jobs by location
-const filter = document.querySelector("#filter-location"); //select
-const mensaje =document.querySelector("#filter-selected-value"); 
-const jobs = document.querySelectorAll(".job-listing-card");
+// Filtro de empleos por localizacion
+const filter = document.querySelector("#filter-location"); //<select>
+const mensaje =document.querySelector("#filter-selected-value"); //testing
+const jobs = document.querySelectorAll(".job-listing-card"); 
 
 filter.addEventListener("change", () => {
     const selectedValue = filter.value;
@@ -38,8 +40,8 @@ filter.addEventListener("change", () => {
     jobs.forEach(job => {
         //const modalidad = job.dataset.modalidad; //seria remoto en la primera fila 
         const modalidad = job.getAttribute("data-modalidad");
-        const isShow = selectedValue === "" || selectedValue === modalidad;
-        job.classList.toggle("is-hidden", !isShow);
+        const isShow = selectedValue === "" || selectedValue === modalidad; //true o false
+        job.classList.toggle("is-hidden", !isShow); 
 
         // if (selectedValue === "" || selectedValue === modalidad) {
         //     job.classList.remove("is-hidden");
@@ -48,6 +50,32 @@ filter.addEventListener("change", () => {
         // }
     });
 });
+
+
+fetch("./data.json") 
+    .then(response => response.json()) 
+    .then(jobs => {
+        jobs.forEach(job => {
+            const article = document.createElement("article");
+            article.className = "job-listing-card";
+
+            article.dataset.modalidad = job.data.modalidad;
+            article.dataset.nivel = job.data.nivel;
+            article.dataset.technology = job.data.technology;
+
+            article.innerHTML = `
+            <div>
+              <h3>${job.titulo}</h3>
+              <small>${job.empresa} | ${job.modalidad}</small>
+              <p>
+                ${job.descripcion}
+              </p>
+            </div>
+            <button class="button-apply-job" id="boton-importante">
+              Aplicar
+            </button>`;
+        });
+    });
 
 
 
