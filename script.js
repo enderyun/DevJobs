@@ -25,9 +25,9 @@ jobListingSections?.addEventListener("click", event => {
 // Filtro de empleos por localizacion
 const filter = document.querySelector("#filter-location"); //<select>
 const mensaje =document.querySelector("#filter-selected-value"); //testing
-const jobs = document.querySelectorAll(".job-listing-card"); 
 
 filter.addEventListener("change", () => {
+    const jobs = document.querySelectorAll(".job-listing-card"); 
     const selectedValue = filter.value;
     
     //testing
@@ -51,7 +51,7 @@ filter.addEventListener("change", () => {
     });
 });
 
-
+const jobsContainer = document.querySelector(".jobs-listings");
 fetch("./data.json") 
     .then(response => response.json()) 
     .then(jobs => {
@@ -59,14 +59,14 @@ fetch("./data.json")
             const article = document.createElement("article");
             article.className = "job-listing-card";
 
-            article.dataset.modalidad = job.data.modalidad;
-            article.dataset.nivel = job.data.nivel;
-            article.dataset.technology = job.data.technology;
+            article.setAttribute("data-modalidad", job.data.modalidad); //<article data-modalidad="remoto">
+            article.setAttribute("data-nivel", job.data.nivel);
+            article.setAttribute("data-technology", job.data.technology);
 
             article.innerHTML = `
             <div>
               <h3>${job.titulo}</h3>
-              <small>${job.empresa} | ${job.modalidad}</small>
+              <small>${job.empresa} | ${job.ubicacion}</small>
               <p>
                 ${job.descripcion}
               </p>
@@ -74,7 +74,10 @@ fetch("./data.json")
             <button class="button-apply-job" id="boton-importante">
               Aplicar
             </button>`;
+
+            jobsContainer.appendChild(article);
         });
+        
     });
 
 
