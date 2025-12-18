@@ -20,6 +20,18 @@
 
     <script type="text/babel">
       function JobCard({ data, titulo, empresa, ubicacion, descripcion }) {
+        const [isApplied, setIsApplied] = React.useState(false);
+
+        console.log("render")
+
+        function handleClick() {
+          setIsApplied(!isApplied);
+        }
+
+        const text = isApplied ? "Aplicado" : "Aplicar";
+        const buttonClass = isApplied ? "is-applied" : "";
+
+
         return (
           <article 
             className="job-listing-card" 
@@ -32,7 +44,11 @@
               <small>{empresa} - {ubicacion}</small>
               <p>{descripcion}</p>
             </div>
-            <button className="button-apply-job" id="boton-importante">Aplicar</button>
+            <button   
+              className={`button-apply-job`}
+              id="boton-importante"
+              onClick={handleClick}
+            >{text}</button>
           </article>
         );
       }
@@ -40,7 +56,17 @@
       function App() {
         return (
           <div className="jobs-listings">
-
+            <JobCard
+              titulo="Desarrollador Frontend"
+              empresa="Empresa de tecnología"
+              ubicacion="Ciudad de México"
+              descripcion="Descripción del trabajo"
+              data={{
+                modalidad: "Remoto",
+                nivel: "Senior",
+                technology: "JavaScript"
+              }}
+            />
           </div>
         );
       }
