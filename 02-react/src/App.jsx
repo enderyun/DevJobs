@@ -1,35 +1,36 @@
-import data from './data.json'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import JobSearch from './components/JobSearch'
-import JobCard from './components/JobCard'
-import Pagination from './components/Pagination'
+import data from "./data.json";
+import { Header } from "./components/Header.jsx";
+import { Footer } from "./components/Footer.jsx";
+import { SearchFormSection } from "./components/SearchFormSection.jsx";
+import { JobListings } from "./components/JobListings.jsx";
+import { Pagination } from "./components/Pagination.jsx";
 
 // Renderizar una lista de elementos/componentes para mostrarlos en la UI
 
 function App() {
+  const handlePageChange = (page) => {
+    console.log("Cambiando la pagina ", page);
+  };
   return (
     <>
-    <Header />
-    <main>
-      <JobSearch />
+      <Header />
 
-      <section>
-        <h2>Resultados de búsqueda</h2>
+      <main>
+        <SearchFormSection />
 
-        <div className="jobs-listings">
+        <section>
+          <h2>Resultados de búsqueda</h2>
           {data.map((job) => (
-            <JobCard key={job.id} job={job} />
+            <JobListings key={job.id} job={job} />
           ))}
-        </div>
-        <Pagination />
-      </section>
-    </main>
 
-    <Footer />
+          <Pagination currentPage={2} onPageChange={handlePageChange}/>
+        </section>
+      </main>
+
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
-
+export default App;

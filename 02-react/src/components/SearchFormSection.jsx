@@ -1,4 +1,4 @@
-function JobSearch() {
+export function SearchFormSection() {
     return (
      <section className="jobs-search">
         <h1>Encuentra tu próximo trabajo</h1>
@@ -75,4 +75,3 @@ function JobSearch() {
     );
 }
 
-export default JobSearch;

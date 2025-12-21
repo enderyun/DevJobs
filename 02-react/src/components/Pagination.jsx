@@ -1,7 +1,38 @@
-function Pagination() {
+export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
+	//Array de paginas para renderizar
+  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+	const isFirstPage = currentPage === 1; 
+	const isLastPage = currentPage === totalPages;
+
+	const sytlePrevButton = isFirstPage ? {pointerEvents: "none", opacity: 0.5} : {};
+	const sytleNextButton = isLastPage ? {pointerEvents: "none", opacity: 0.5} : {};
+
+	const handlePrevClick = (event) => {
+		event.preventDefault();
+		if (!isFirstPage) {
+			onPageChange(currentPage - 1);
+		}
+	}
+
+	const handleNextClick = (event) => {
+		event.preventDefault();
+		if (!isLastPage) {
+			onPageChange(currentPage + 1);
+		}
+	}
+
+	const handleChangePage = (event, page) => {
+		event.preventDefault();
+		if (page !== currentPage) {
+			onPageChange(page)
+		}
+	}
+
+
   return (
     <nav className="pagination">
-      <a href="#">
+      <a href="#" style={sytlePrevButton} onClick={handlePrevClick}>
         <svg
           width="16"
           height="16"
@@ -16,14 +47,17 @@ function Pagination() {
           <path d="M15 6l-6 6l6 6" />
         </svg>
       </a>
-      <a className="is-active" href="#">
-        1
-      </a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#">
+
+			{pages.map((page) => (
+				<a href="#"
+					className={currentPage === page ? "is-active" : ""}
+					onClick={(event) => handleChangePage(event, page)}
+				>
+					{page}
+				</a>
+			))}
+
+      <a href="#" style={sytleNextButton} onClick={handleNextClick}>
         <svg
           width="16"
           height="16"
@@ -42,5 +76,3 @@ function Pagination() {
     </nav>
   );
 }
-
-export default Pagination;
