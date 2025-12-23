@@ -50,6 +50,8 @@ export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
 
 			{pages.map((page) => (
 				<a href="#"
+          key={page}
+          data-page={page} //No recuerdo para que era esto
 					className={currentPage === page ? "is-active" : ""}
 					onClick={(event) => handleChangePage(event, page)}
 				>
