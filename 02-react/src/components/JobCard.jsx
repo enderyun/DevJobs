@@ -4,37 +4,35 @@ import { useState } from "react";
 export function JobCard({ job }) {
   const [isApplied, setIsApplied] = useState(false);
 
-  console.log("render");
-
-  function handleClick() {
+  function handleApplyClick() {
     setIsApplied(!isApplied);
   }
 
-  const text = isApplied ? "Aplicado" : "Aplicar";
-  const buttonClass = isApplied ? "is-applied" : "";
+  const buttonText = isApplied ? "Aplicado" : "Aplicar";
+  const buttonClass = isApplied ? "button-apply-job is-applied" : "button-apply-job";
 
   return (
     <>
-    <article
+      <article
         className="job-listing-card"
         data-modalidad={job.data?.modalidad}
         data-nivel={job.data?.nivel}
         data-technology={job.data?.technology}
-    >
+      >
         <div>
-        <h3>{job.titulo}</h3>
-        <small>
+          <h3>{job.titulo}</h3>
+          <small>
             {job.empresa} | {job.ubicacion}
-        </small>
-        <p>{job.descripcion}</p>
+          </small>
+          <p>{job.descripcion}</p>
         </div>
         <button
-        className={`button-apply-job ${buttonClass}`}
-        onClick={handleClick}
+          className={buttonClass}
+          onClick={handleApplyClick}
         >
-        {text}
+          {buttonText}
         </button>
-    </article>
+      </article>
     </>
   );
 }

@@ -1,3 +1,5 @@
+import styles from "./Pagination.module.css"
+
 export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
 	//Array de paginas para renderizar
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -31,7 +33,7 @@ export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
 
 
   return (
-    <nav className="pagination">
+    <nav className={styles.pagination}>
       <a href="#" style={sytlePrevButton} onClick={handlePrevClick}>
         <svg
           width="16"
@@ -51,8 +53,8 @@ export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
 			{pages.map((page) => (
 				<a href="#"
           key={page}
-          data-page={page} //No recuerdo para que era esto
-					className={currentPage === page ? "is-active" : ""}
+          data-page={page} // Por el momento no se usa.
+					className={currentPage === page ? styles.isActive : ""}
 					onClick={(event) => handleChangePage(event, page)}
 				>
 					{page}
