@@ -1,7 +1,7 @@
 import { useId } from "react";
 
 export function SearchFormSection({ onSearch, onTextFilter }) {
-  const idText = useId();
+  const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
