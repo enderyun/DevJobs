@@ -29,7 +29,6 @@ function App() {
     )
   })
   
-  // TODO: cambiarlo de live typo a submit 
   const jobsWithTextFilter = textToFilter === ""
     ? jobFilteredByFilters
     : jobFilteredByFilters.filter(job => {

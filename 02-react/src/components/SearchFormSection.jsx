@@ -8,8 +8,10 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    const formData = new FormData(event.target)
+
+    // event.target !== event.currentTarget
+
+    const formData = new FormData(event.currentTarget)
 
     const filters = {
       technology: formData.get(idTechnology),
@@ -31,7 +33,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
         <h1>Encuentra tu próximo trabajo</h1>
         <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-        <form onSubmit={handleSubmit} id="empleos-search-form" role="search">
+        <form onChange={handleSubmit} id="empleos-search-form" role="search" onSubmit={handleSubmit}>
           <div className="search-bar">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +60,6 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
               placeholder="Buscar trabajos, empresas o habilidades"
               onChange={handleTextChange}
             />
-            <button type="submit">Buscar</button>
           </div>
 
           <div className="search-filters">
