@@ -1,16 +1,63 @@
-# React + Vite
+# DevJobs 💼
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Acerca del Proyecto
 
-Currently, two official plugins are available:
+**DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje a través de un **Bootcamp intensivo**, donde aplico mejores prácticas de desarrollo de software moderno.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+El objetivo es crear una aplicación **Full Stack** completa, demostrando habilidades tanto en Frontend como en Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento. 
 
-## React Compiler
+## 🛠️ Stack Tecnológico
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+El proyecto se encuentra en constante evolución, integrando nuevas tecnologías en cada etapa del desarrollo.
 
-## Expanding the ESLint configuration
+### 🔹 Tecnologías Actuales
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React**: Construcción de componentes y manejo del estado de la interfaz.
+- **Vite**: Build tool y entorno de desarrollo de alto rendimiento.
+- **CSS Modules / Vanilla CSS**: Diseño responsivo y estilización modular.
+
+### 🔹 Roadmap y Futuras Implementaciones
+
+Las siguientes tecnologías serán integradas progresivamente para robustecer la aplicación:
+
+- **TypeScript**: Migración a TS para asegurar tipado estático y reducir errores en tiempo de ejecución.
+- **React Router**: Implementación de un sistema de enrutamiento dinámico tipo SPA (Single Page Application).
+- **Express.js**: Desarrollo del servidor y API RESTful.
+- **SQL**: Diseño y gestión de bases de datos relacionales para persistencia de datos.
+- **Docker**: Contenerización de servicios para garantizar entornos dev/prod consistentes.
+- **CI/CD**: Pipelines de Integración y Entrega Continua para automatizar testing y despliegues.
+- **DevOps**: Configuración de servidores y orquestación.
+- **MCP (Model Context Protocol)**: Integración de herramientas de IA y contexto.
+
+## ⚡ Instalación y Ejecución
+
+Para correr este proyecto localmente:
+
+1.  **Clonar el repositorio:**
+
+    ```bash
+    git clone <URL_DEL_REPOSITORIO>
+    cd DevJobs
+    ```
+
+2.  **Instalar dependencias:**
+
+    ```bash
+    pnpm install
+    ```
+
+3.  **Iniciar el servidor de desarrollo:**
+    ```bash
+    pnpm run dev
+    ```
+
+## 🎯 Objetivos de Aprendizaje
+
+Este proyecto busca consolidar conocimientos en:
+
+- Arquitectura de Software escalable.
+- Gestión de estado complejo en el cliente.
+- Diseño y consumo de APIs.
+- Automatización de flujos de trabajo (Workflows).
+- Buenas prácticas de código limpio y mantenible.
+
