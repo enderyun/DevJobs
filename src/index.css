@@ -152,6 +152,10 @@ nav {
       color: var(--primary);
       outline: none;
     }
+
+    &.isActive {
+      color: var(--primary-light);
+    }
   }
 }
 
