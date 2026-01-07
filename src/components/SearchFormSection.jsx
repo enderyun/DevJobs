@@ -1,7 +1,8 @@
 import { useId, useState } from "react";
 
 const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter }) => {
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("") // Por el momento no se usa 
+  
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -14,12 +15,13 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, 
       experienceLevel: formData.get(idExperienceLevel)
     }
 
+    console.log(filters)
     onSearch(filters);
   }
 
   const handleTextChange = (event) => {
     const text = event.target.value
-    setSearchText(text)
+    setSearchText(text) // Por el momento no se usa 
     onTextFilter(text)
   }
 
@@ -30,16 +32,13 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, 
   }
 }
 
-export function SearchFormSection({ onSearch, onTextFilter }) {
+export function SearchFormSection({ onSearch, onTextFilter }) { // Desde el Search.jsx
   const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const {
-    handleSubmit,
-    handleTextChange,
-  } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter })
+  const { handleSubmit, handleTextChange } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter })
 
     
     return (
