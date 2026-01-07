@@ -15,10 +15,10 @@ export function SearchPage() {
     location: "",
     experienceLevel: ""
   })
-  const [ textToFilter, setTextToFilter ] = useState(""); // Type en vivo de búsqueda
+  const [ textToFilter, setTextToFilter ] = useState(""); // Typo en tiempo real
   const [ currentPage, setCurrentPage ] = useState(1); 
 
-  // TODO: arreglar un dia el json, ya que mezcla español con inggles
+  // TODO: arreglar el json, ya que mezcla español con inglés
   const jobFilteredByFilters = jobsData.filter(job => {
     return (
       (filters.technology === "" || job.data.technology === filters.technology) &&
@@ -44,13 +44,13 @@ export function SearchPage() {
     setCurrentPage(page);
   };
 
-  // Technology, location or experience level 
+  // Filtros de technology, location o experienceLevel 
   const handleSearch = (filters) => {
     setFilters(filters);
     setCurrentPage(1);
   }
 
-  // Typo in real time
+  // Typo en tiempo real
   const handleTextFilter = (newTextToFilter) => {
     setTextToFilter(newTextToFilter);
     setCurrentPage(1);
