@@ -3,7 +3,7 @@ import { useRouter } from "../hooks/useRouter.jsx";
 export function Link({ href, children, className = "", ...restOfProps }) {
   const { navigateTo, currentPath } = useRouter();
 
-  // href: dirrecion desde el Route.jsx/App.jsx
+  // href: direccion desde el Route.jsx/App.jsx
   // currentPath: window.location.pathname del useRouter
 
   const handleClick = (event) => {

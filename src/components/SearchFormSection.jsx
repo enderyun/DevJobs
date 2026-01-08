@@ -32,13 +32,19 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, 
   }
 }
 
-export function SearchFormSection({ onSearch, onTextFilter }) { // Desde el Search.jsx
+export function SearchFormSection({ onSearch, onTextFilter }) { 
   const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const { handleSubmit, handleTextChange } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter })
+  const { handleSubmit, handleTextChange } = useSearchForm({ 
+    idTechnology,
+    idLocation,
+    idExperienceLevel,
+    onSearch, // Provienente del Search.jsx (filtros de technology, location y experienceLevel)
+    onTextFilter // Provienente del Search.jsx (input text)
+  })
 
     
     return (
