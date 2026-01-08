@@ -4,7 +4,7 @@
 
 **DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje a través de un Bootcamp, donde aplico mejores prácticas de desarrollo de software moderno.
 
-El objetivo es crear una aplicación **Full Stack** completa, demostrando habilidades tanto en Frontend como en Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento. 
+El objetivo es crear una aplicación **Full Stack** completa, aprendiendo y puliendo habilidades tanto de Frontend como de Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento.
 
 ## 🛠️ Stack Tecnológico
 
@@ -53,7 +53,7 @@ Para correr este proyecto localmente:
 
 ## 🎯 Objetivos de Aprendizaje
 
-Este proyecto busca consolidar conocimientos en:
+Este proyecto busca consolidar mis conocimientos en:
 
 - Arquitectura de Software escalable.
 - Gestión de estado complejo en el cliente.

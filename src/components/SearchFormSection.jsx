@@ -1,6 +1,9 @@
 import { useId, useState } from "react";
 
-const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter }) => {
+
+let timeoutId = null;
+
+const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter }) => {
   const [searchText, setSearchText] = useState("") // Por el momento no se usa 
   
   const handleSubmit = (event) => {
@@ -9,6 +12,12 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, 
     // event.target !== event.currentTarget
     const formData = new FormData(event.currentTarget)
 
+    /* 
+    Cancelar el fetch de los filtros, ya que el usuario está
+    escribiendo en el input 
+    */
+    if (event.target.name === idText) return 
+ 
     const filters = {
       technology: formData.get(idTechnology),
       location: formData.get(idLocation),
@@ -19,10 +28,24 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, onSearch, 
     onSearch(filters);
   }
 
+  /*
+  TODO: el handleTextChange y handleSubmit deberian estar en una sola funcion
+  y no en dos separadas 
+  */
+
   const handleTextChange = (event) => {
     const text = event.target.value
     setSearchText(text) // Por el momento no se usa 
+
+    
+    //Debounce: cancelar la llamada anterior
+    if (timeoutId) {
+      clearTimeout(timeoutId) // En dado caso esté una llamada a la API en progeso
+    }
+
+    timeoutId = setTimeout(() => {
     onTextFilter(text)
+    }, 500) 
   }
 
   return {
@@ -42,8 +65,9 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
     idTechnology,
     idLocation,
     idExperienceLevel,
-    onSearch, // Provienente del Search.jsx (filtros de technology, location y experienceLevel)
-    onTextFilter // Provienente del Search.jsx (input text)
+    idText,
+    onSearch, // Proveniente del Search.jsx (filtros de technology, location y experienceLevel)
+    onTextFilter // Proveniente del Search.jsx (input text)
   })
 
     

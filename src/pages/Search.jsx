@@ -106,8 +106,8 @@ export function SearchPage() {
 
       <section>
         {
-          // TODO: asignarle un spinner 
-          loading ? <p>Cargando empleos...</p> : <JobListings jobs={jobs} />
+          // TODO: asignarle un spinner
+          loading ? <p style={{ textAlign: 'center' }}>Cargando empleos...</p> : <JobListings jobs={jobs} />
         }
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
       </section>
