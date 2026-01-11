@@ -14,7 +14,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
 
     /* 
     Cancelar el fetch de los filtros, ya que el usuario está
-    escribiendo en el input 
+    escribiendo en el input
     */
     if (event.target.name === idText) return 
  

@@ -106,8 +106,28 @@ export function SearchPage() {
 
       <section>
         {
-          // TODO: asignarle un spinner
-          loading ? <p style={{ textAlign: 'center' }}>Cargando empleos...</p> : <JobListings jobs={jobs} />
+          // Este spinner solo sera temporal
+          loading 
+          ? <div className="spinner-container">
+              <svg className="spinner" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M9 9h.01" />
+                <path d="M15 9h.01" />
+                <path d="M13 15a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+              </svg>
+              {/* SVG anterior (whirl icon):
+              <svg className="spinner" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M14 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" />
+                <path d="M12 21c-3.314 0 -6 -2.462 -6 -5.5s2.686 -5.5 6 -5.5" />
+                <path d="M21 12c0 3.314 -2.462 6 -5.5 6s-5.5 -2.686 -5.5 -6" />
+                <path d="M12 14c3.314 0 6 -2.462 6 -5.5s-2.686 -5.5 -6 -5.5" />
+                <path d="M14 12c0 -3.314 -2.462 -6 -5.5 -6s-5.5 2.686 -5.5 6" />
+              </svg>
+              */}
+            </div>
+          : <JobListings jobs={jobs} />
         }
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
       </section>

@@ -472,3 +472,26 @@ devjobs-avatar {
   object-fit: cover;
   border: 2px solid var(--primary-light);
 } */
+
+/* Spinner de carga (puede ser temporal) */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.spinner {
+  animation: spin 1.5s linear infinite;
+  color: var(--primary-light);
+}
