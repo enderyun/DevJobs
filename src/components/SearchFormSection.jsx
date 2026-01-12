@@ -3,7 +3,8 @@ import { useId, useState } from "react";
 
 let timeoutId = null;
 
-const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter }) => {
+// TODO: Esto es un hook, por lo que no debe estar en este componente
+const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter, onClearFilters }) => {
   const [searchText, setSearchText] = useState("") // Por el momento no se usa 
   
   const handleSubmit = (event) => {
@@ -45,29 +46,40 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
 
     timeoutId = setTimeout(() => {
     onTextFilter(text)
-    }, 500) 
+    }, 500)
+  }
+
+  const handleClearFilters = () => {
+    onClearFilters()
   }
 
   return {
-    searchText,
+    searchText, // No se usa por el momento
     handleSubmit,
-    handleTextChange
+    handleTextChange,
+    handleClearFilters
   }
 }
 
-export function SearchFormSection({ onSearch, onTextFilter }) { 
+export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasActiveFilters }) { 
   const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const { handleSubmit, handleTextChange } = useSearchForm({ 
+  const { handleSubmit, handleTextChange, handleClearFilters } = useSearchForm({ 
     idTechnology,
     idLocation,
     idExperienceLevel,
     idText,
+    /*
+    No se usan en el codigo, sino que al venir del Search.jsx se necesita pasar por el 
+    SearchFormSection, y luego se envian al useSearchForm
+    */
+    hasActiveFilters,
     onSearch, // Proveniente del Search.jsx (filtros de technology, location y experienceLevel)
-    onTextFilter // Proveniente del Search.jsx (input text)
+    onTextFilter, // Proveniente del Search.jsx (input text)
+    onClearFilters // Proveniente del Search.jsx (limpiar filtros)
   })
 
     
@@ -95,7 +107,6 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
               <path d="M21 21l-6 -6" />
             </svg>
 
-           
             <input
               name={idText}
               id="empleos-search-input"
@@ -103,6 +114,16 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
               placeholder="Buscar trabajos, empresas o habilidades"
               onChange={handleTextChange}
             />
+
+            {
+              hasActiveFilters 
+              ? (
+                <button type="submit" onSubmit={handleClearFilters}>
+                  Limpiar filtros
+                </button>
+                ) 
+              : null
+            }
           </div>
 
           <div className="search-filters">

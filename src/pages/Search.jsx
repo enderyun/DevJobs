@@ -7,6 +7,7 @@ import { Pagination } from "../components/Pagination.jsx";
 
 const RESULTS_PER_PAGE = 4; // Cambiar si es necesario
 
+// Probablemente vaya en un archivo separado
 const useFilters = () => {
 
   const [ filters, setFilters ] = useState({ 
@@ -21,9 +22,8 @@ const useFilters = () => {
   const [total, setTotal] =useState(0)
   const [loading, setLoading] = useState(true);
 
-  // TODO: implementar boton para limpiar filtros
-  // const hasActiveFilters = ???
-  // const handleClearFilters = () => {???}
+  const hasActiveFilters = Object.values(filters).some(value => value !== "")
+
 
   // TODO: guardar los filtros en localStorage
   useEffect(() => {
@@ -83,26 +83,40 @@ const useFilters = () => {
     setCurrentPage(1);
   }
 
+  const handleClearFilters = () => {
+    setFilters({
+      technology: "",
+      location: "",
+      experienceLevel: ""
+    });
+    setTextToFilter("");
+    setCurrentPage(1);
+
+    // TODO: Limpiar el localStorage cuando se llegue a implementar
+  }
+
   return {
     jobs,
     total,
     loading,
     currentPage,
     totalPages,
+    hasActiveFilters,
     handlePageChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
+    handleClearFilters
   }
 }
 
 export function SearchPage() {  
 
-  const { jobs, loading, currentPage, totalPages, handlePageChange, handleSearch, handleTextFilter } = useFilters();
+  const { jobs, loading, currentPage, totalPages, hasActiveFilters, handlePageChange, handleSearch, handleTextFilter, handleClearFilters } = useFilters();
 
 
   return (
     <main>
-      <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter}/>
+      <SearchFormSection hasActiveFilters={hasActiveFilters} onSearch={handleSearch} onTextFilter={handleTextFilter} onClearFilters={handleClearFilters}/>
 
       <section>
         {
