@@ -1,62 +1,72 @@
-import { useId, useState } from "react";
+import { useId } from "react";
 
 
 let timeoutId = null;
 
 // TODO: Esto es un hook, por lo que no debe estar en este componente
 const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter, onClearFilters }) => {
-  const [searchText, setSearchText] = useState("") // Por el momento no se usa 
+  // const [searchText, setSearchText] = useState("") 
   
   const handleSubmit = (event) => {
-    event.preventDefault();
+    /* 
+    Cancela el fetch de los filtros, ya que el usuario está
+    escribiendo en el input
+    */
+    if (event.target.name === idText) { 
+      const text = event.target.value
+      // setSearchText(text) // Por el momento no se usa 
 
+      //Debounce: cancelar la llamada anterior
+      if (timeoutId) {
+        clearTimeout(timeoutId) // En dado caso esté una llamada a la API en progeso
+        // En otras palabras: el usuario sigue escribiendo
+      }
+
+      timeoutId = setTimeout(() => {
+      onTextFilter(text)
+      }, 500)
+      
+      return
+    }    
+    
+    event.preventDefault();
     // event.target !== event.currentTarget
     const formData = new FormData(event.currentTarget)
 
-    /* 
-    Cancelar el fetch de los filtros, ya que el usuario está
-    escribiendo en el input
-    */
-    if (event.target.name === idText) return 
- 
     const filters = {
       technology: formData.get(idTechnology),
       location: formData.get(idLocation),
       experienceLevel: formData.get(idExperienceLevel)
     }
 
-    console.log(filters)
     onSearch(filters);
   }
 
-  /*
-  TODO: el handleTextChange y handleSubmit deberian estar en una sola funcion
-  y no en dos separadas 
-  */
+  // Funcion antigua para el input text
 
-  const handleTextChange = (event) => {
-    const text = event.target.value
-    setSearchText(text) // Por el momento no se usa 
+  // const handleTextChange = (event) => {
+  //   const text = event.target.value
+  //   setSearchText(text) // Por el momento no se usa 
 
     
-    //Debounce: cancelar la llamada anterior
-    if (timeoutId) {
-      clearTimeout(timeoutId) // En dado caso esté una llamada a la API en progeso
-    }
+  //   //Debounce: cancelar la llamada anterior
+  //   if (timeoutId) {
+  //     clearTimeout(timeoutId) // En dado caso esté una llamada a la API en progeso
+  //   }
 
-    timeoutId = setTimeout(() => {
-    onTextFilter(text)
-    }, 500)
-  }
+  //   timeoutId = setTimeout(() => {
+  //   onTextFilter(text)
+  //   }, 500)
+  // }
 
   const handleClearFilters = () => {
+    document.getElementById("empleos-search-form").reset(); 
     onClearFilters()
   }
 
   return {
-    searchText, // No se usa por el momento
+    //searchText, // No se usa por el momento
     handleSubmit,
-    handleTextChange,
     handleClearFilters
   }
 }
@@ -67,7 +77,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const { handleSubmit, handleTextChange, handleClearFilters } = useSearchForm({ 
+  const { handleSubmit, handleClearFilters } = useSearchForm({ 
     idTechnology,
     idLocation,
     idExperienceLevel,
@@ -112,13 +122,12 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
               id="empleos-search-input"
               type="text"
               placeholder="Buscar trabajos, empresas o habilidades"
-              onChange={handleTextChange}
             />
 
             {
               hasActiveFilters 
               ? (
-                <button type="submit" onSubmit={handleClearFilters}>
+                <button type="button" onClick={handleClearFilters}>
                   Limpiar filtros
                 </button>
                 ) 
