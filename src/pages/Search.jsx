@@ -3,24 +3,37 @@ import { useState, useEffect } from "react";
 import { SearchFormSection } from "../components/SearchFormSection.jsx";
 import { JobListings } from "../components/JobListings.jsx";
 import { Pagination } from "../components/Pagination.jsx";
-
+import { useRouter } from "../hooks/useRouter.jsx";
 
 const RESULTS_PER_PAGE = 4; // Cambiar si es necesario
 
 // Probablemente vaya en un archivo separado
 const useFilters = () => {
 
-  const [ filters, setFilters ] = useState({ 
-    technology: "",
-    location: "",
-    experienceLevel: ""
+  const [ filters, setFilters ] = useState(() => { 
+    const params = new URLSearchParams(window.location.search)
+    return {
+      technology: params.get('technology') || '',
+      location: params.get('type') || '',
+      experienceLevel: params.get('level') || '',
+    }
   })
-  const [ textToFilter, setTextToFilter ] = useState(""); // Typo en tiempo real
-  const [ currentPage, setCurrentPage ] = useState(1); 
+  const [ textToFilter, setTextToFilter ] = useState(() => { // Typo en tiempo real
+    const params = new URLSearchParams(window.location.search)
+    return params.get('text') || ''
+  }); 
+  const [ currentPage, setCurrentPage ] = useState(() => { 
+    const params = new URLSearchParams(window.location.search)
+    const page = Number(params.get('page'))
+    // Evitar que se inyecte un NaN o un número negativo en la URL 
+    return (!page || page < 1) ? 1 : page
+  }); 
 
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] =useState(0)
   const [loading, setLoading] = useState(true);
+
+  const { navigateTo } = useRouter()
 
   const hasActiveFilters = Object.values(filters).some(value => value !== "")
 
@@ -64,6 +77,24 @@ const useFilters = () => {
 
   }, [filters, textToFilter, currentPage])
 
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (textToFilter) params.append('text', textToFilter)
+    if (filters.technology) params.append('technology', filters.technology)
+    if (filters.location) params.append('type', filters.location)
+    if (filters.experienceLevel) params.append('level', filters.experienceLevel)
+    
+    if (currentPage > 1) params.append('page', currentPage)
+    
+    const newUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname
+    
+    navigateTo(newUrl)
+    
+  }, [currentPage, filters, textToFilter, navigateTo])
+
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE); 
 
 
@@ -101,6 +132,8 @@ const useFilters = () => {
     loading,
     currentPage,
     totalPages,
+    filters,
+    textToFilter,
     hasActiveFilters,
     handlePageChange,
     handleSearch,
@@ -111,12 +144,19 @@ const useFilters = () => {
 
 export function SearchPage() {  
 
-  const { jobs, loading, currentPage, totalPages, hasActiveFilters, handlePageChange, handleSearch, handleTextFilter, handleClearFilters } = useFilters();
+  const { jobs, loading, currentPage, totalPages, filters, textToFilter, hasActiveFilters, handlePageChange, handleSearch, handleTextFilter, handleClearFilters } = useFilters();
 
 
   return (
     <main>
-      <SearchFormSection hasActiveFilters={hasActiveFilters} onSearch={handleSearch} onTextFilter={handleTextFilter} onClearFilters={handleClearFilters}/>
+      <SearchFormSection 
+        hasActiveFilters={hasActiveFilters} 
+        onSearch={handleSearch} 
+        onTextFilter={handleTextFilter} 
+        onClearFilters={handleClearFilters}
+        initialText={textToFilter}
+        initialFilters={filters}
+      />
 
       <section>
         {

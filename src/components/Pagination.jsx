@@ -24,17 +24,24 @@ export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
 		}
 	}
 
-	const handleChangePage = (event, page) => {
+	const handleChangePage = (event) => {
 		event.preventDefault();
+    const page = Number(event.target.dataset.page)
 		if (page !== currentPage) {
 			onPageChange(page)
 		}
 	}
 
+  const buildPagesUrl = (page) => {
+    const url = new URL(window.location)
+    url.searchParams.set('page', page)
+    return `${url.pathname}?${url.searchParams.toString()}`
+  }
+
 
   return (
     <nav className={styles.pagination}>
-      <a href="#" style={sytlePrevButton} onClick={handlePrevClick}>
+      <a href={buildPagesUrl(currentPage - 1)} style={sytlePrevButton} onClick={handlePrevClick}>
         <svg
           width="16"
           height="16"
@@ -51,17 +58,17 @@ export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
       </a>
 
 			{pages.map((page) => (
-				<a href="#"
+				<a href={buildPagesUrl(page)}
           key={page}
-          data-page={page} // Por el momento no se usa.
+          data-page={page}
 					className={currentPage === page ? styles.isActive : ""}
-					onClick={(event) => handleChangePage(event, page)}
+					onClick={handleChangePage}
 				>
 					{page}
 				</a>
 			))}
 
-      <a href="#" style={sytleNextButton} onClick={handleNextClick}>
+      <a href={buildPagesUrl(currentPage + 1)} style={sytleNextButton} onClick={handleNextClick}>
         <svg
           width="16"
           height="16"

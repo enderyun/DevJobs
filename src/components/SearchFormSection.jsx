@@ -70,7 +70,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, in
   }
 }
 
-export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasActiveFilters }) { 
+export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasActiveFilters, initialText, initialFilters }) { 
   const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();
@@ -123,6 +123,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
               id="empleos-search-input"
               type="text"
               placeholder="Buscar trabajos, empresas o habilidades"
+              defaultValue={initialText}
             />
 
             {
@@ -137,7 +138,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
           </div>
 
           <div className="search-filters">
-            <select name={idTechnology} id="filter-technology">
+            <select name={idTechnology} id="filter-technology" defaultValue={initialFilters?.technology}>
               <option value="">Tecnología</option>
               <optgroup label="Tecnologías populares">
                 <option value="javascript">JavaScript</option>
@@ -155,7 +156,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
               <option value="php">PHP</option>
             </select>
 
-            <select name={idLocation} id="filter-location">
+            <select name={idLocation} id="filter-location" defaultValue={initialFilters?.location}>
               <option value="">Ubicación</option>
               <option value="remoto">Remoto</option>
               <option value="cdmx">Ciudad de Mexico</option>
@@ -164,7 +165,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
               <option value="barcelona">Barcelona</option>
             </select>
 
-            <select name={idExperienceLevel} id="filter-experience-level">
+            <select name={idExperienceLevel} id="filter-experience-level" defaultValue={initialFilters?.experienceLevel}>
               <option value="">Nivel de experiencia</option>
               <option value="junior">Junior</option>
               <option value="mid-level">Mid-level</option>
