@@ -1,12 +1,11 @@
-import { useId } from "react";
-
-
-let timeoutId = null;
+import { useId, useRef } from "react";
 
 // TODO: Esto es un hook, por lo que no debe estar en este componente
-const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter, onClearFilters }) => {
+const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, inputRef, onSearch, onTextFilter, onClearFilters }) => {
   // const [searchText, setSearchText] = useState("") 
   
+  const timeoutId = useRef(null)
+
   const handleSubmit = (event) => {
     /* 
     Cancela el fetch de los filtros, ya que el usuario está
@@ -17,12 +16,12 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
       // setSearchText(text) // Por el momento no se usa 
 
       //Debounce: cancelar la llamada anterior
-      if (timeoutId) {
-        clearTimeout(timeoutId) // En dado caso esté una llamada a la API en progeso
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current) // En dado caso esté una llamada a la API en progeso
         // En otras palabras: el usuario sigue escribiendo
       }
 
-      timeoutId = setTimeout(() => {
+      timeoutId.current = setTimeout(() => {
       onTextFilter(text)
       }, 500)
       
@@ -60,7 +59,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
   // }
 
   const handleClearFilters = () => {
-    document.getElementById("empleos-search-form").reset(); 
+    inputRef.current.reset(); 
     onClearFilters()
   }
 
@@ -76,12 +75,14 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
+  const inputRef = useRef()
 
   const { handleSubmit, handleClearFilters } = useSearchForm({ 
     idTechnology,
     idLocation,
     idExperienceLevel,
     idText,
+    inputRef,
     /*
     No se usan en el codigo, sino que al venir del Search.jsx se necesita pasar por el 
     SearchFormSection, y luego se envian al useSearchForm
@@ -98,7 +99,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
         <h1>Encuentra tu próximo trabajo</h1>
         <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-        <form onChange={handleSubmit} id="empleos-search-form" role="search" >
+        <form onChange={handleSubmit} id="empleos-search-form" role="search" ref={inputRef}>
           <div className="search-bar">
             <svg
               xmlns="http://www.w3.org/2000/svg"
