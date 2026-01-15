@@ -1,28 +1,21 @@
-import { useRouter } from "../hooks/useRouter.jsx";
+import { Link as NavLink } from "react-router";
+import { useRouter } from "../hooks/useRouter";
 
 export function Link({ href, children, className = "", ...restOfProps }) {
-  const { navigateTo, currentPath } = useRouter();
-
-  // href: direccion desde el Route.jsx/App.jsx
-  // currentPath: window.location.pathname del useRouter
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    navigateTo(href);
-  };
+  // TODO: currentPath debe de usarse para la clase isActive
+  const { currentPath } = useRouter(); // 
 
   const linkIsActive = currentPath === href ? "isActive" : "";
 
   return (
-    <a
-      href={href}
-      onClick={handleClick}
+    <NavLink
+      to={href}
       // Por lo general no se deberia de pasar ningun atributo adicional a
       // este componente, pero si se cambia de parecer en el futuro no hay problema
       className={`${className} ${linkIsActive}`}
       {...restOfProps}
     >
       {children}
-    </a>
+    </NavLink>
   );
 }
