@@ -258,7 +258,7 @@ button {
     outline-offset: 2px;
   }
 
-  &:active { 
+  &:active {
     transform: scale(0.90)
   }
 
