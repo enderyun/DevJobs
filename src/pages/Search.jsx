@@ -93,7 +93,13 @@ const useFilters = () => {
     
     navigateTo(newUrl)
     
-  }, [currentPage, filters, textToFilter, navigateTo])
+    /*
+    *  El useEffect estaba causando un loop infinito al momento de
+    *  actualizar la URL con navigateTo. Será una solución temporal
+    *  hasta que se implemente el hook useCallback.
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, filters, textToFilter])
 
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE); 
 

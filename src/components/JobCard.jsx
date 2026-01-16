@@ -1,5 +1,7 @@
 // Componente JobCard - Recibe los datos de un trabajo como prop
 import { useState } from "react";
+import { Link } from "./Link.jsx";
+import styles from "./JobCard.module.css";
 
 export function JobCard({ job }) {
   const [isApplied, setIsApplied] = useState(false);
@@ -9,7 +11,9 @@ export function JobCard({ job }) {
   }
 
   const buttonText = isApplied ? "Aplicado" : "Aplicar";
-  const buttonClass = isApplied ? "button-apply-job is-applied" : "button-apply-job";
+  const buttonClass = isApplied
+    ? "button-apply-job is-applied"
+    : "button-apply-job";
 
   return (
     <>
@@ -20,18 +24,22 @@ export function JobCard({ job }) {
         data-technology={job.data?.technology}
       >
         <div>
-          <h3>{job.titulo}</h3>
+          <Link to={`/jobs/${job.id}`} className={styles.title}>
+            <h3>{job.titulo}</h3>
+          </Link>
           <small>
             {job.empresa} | {job.ubicacion}
           </small>
           <p>{job.descripcion}</p>
         </div>
-        <button
-          className={buttonClass}
-          onClick={handleApplyClick}
-        >
-          {buttonText}
-        </button>
+        <div className={styles.actions}>
+          <Link to={`/jobs/${job.id}`} className={styles.details}>
+            Ver Detalles
+          </Link>
+          <button className={buttonClass} onClick={handleApplyClick}>
+            {buttonText}
+          </button>
+        </div>
       </article>
     </>
   );
