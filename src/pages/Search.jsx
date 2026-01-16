@@ -4,30 +4,29 @@ import { SearchFormSection } from "../components/SearchFormSection.jsx";
 import { JobListings } from "../components/JobListings.jsx";
 import { Pagination } from "../components/Pagination.jsx";
 import { useRouter } from "../hooks/useRouter.jsx";
+import { useSearchParams } from "react-router";
 
 const RESULTS_PER_PAGE = 4; // Cambiar si es necesario
 
-// Probablemente vaya en un archivo separado
+// TODO: Este hook probablemente vaya en un archivo separado
 const useFilters = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [ filters, setFilters ] = useState(() => { 
-    const params = new URLSearchParams(window.location.search)
     return {
-      technology: params.get('technology') || '',
-      location: params.get('type') || '',
-      experienceLevel: params.get('level') || '',
+      technology: searchParams.get('technology') || '',
+      location: searchParams.get('type') || '',
+      experienceLevel: searchParams.get('level') || '',
     }
   })
-  const [ textToFilter, setTextToFilter ] = useState(() => { // Typo en tiempo real
-    const params = new URLSearchParams(window.location.search)
-    return params.get('text') || ''
-  }); 
+
+  const [ textToFilter, setTextToFilter ] = useState(() => searchParams.get('text') || '')
+
   const [ currentPage, setCurrentPage ] = useState(() => { 
-    const params = new URLSearchParams(window.location.search)
-    const page = Number(params.get('page'))
+    const page = Number(searchParams.get('page'))
     // Evitar que se inyecte un NaN o un número negativo en la URL 
     return (!page || page < 1) ? 1 : page
-  }); 
+  })
 
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] =useState(0)
@@ -35,10 +34,12 @@ const useFilters = () => {
 
   const { navigateTo } = useRouter()
 
+  // Para el boton "limpiar filtros" en el SearchFormSection
   const hasActiveFilters = Object.values(filters).some(value => value !== "")
 
 
   // TODO: guardar los filtros en localStorage
+  // Fetch a la API
   useEffect(() => {
     async function fetchJobs() {
       try {
@@ -46,6 +47,7 @@ const useFilters = () => {
         setLoading(true)
 
         const params = new URLSearchParams()
+
         if (textToFilter) params.append('text', textToFilter)
         if (filters.technology) params.append('technology', filters.technology)
         if (filters.location) params.append('type', filters.location)
@@ -78,28 +80,26 @@ const useFilters = () => {
   }, [filters, textToFilter, currentPage])
 
 
+  // Actualizar la URL
   useEffect(() => {
-    const params = new URLSearchParams()
-    if (textToFilter) params.append('text', textToFilter)
-    if (filters.technology) params.append('technology', filters.technology)
-    if (filters.location) params.append('type', filters.location)
-    if (filters.experienceLevel) params.append('level', filters.experienceLevel)
-    
-    if (currentPage > 1) params.append('page', currentPage)
-    
-    const newUrl = params.toString()
-      ? `${window.location.pathname}?${params.toString()}`
-      : window.location.pathname
-    
-    navigateTo(newUrl)
+    setSearchParams((params) => {
+      if (textToFilter) params.set('text', textToFilter)
+      if (filters.technology) params.set('technology', filters.technology)
+      if (filters.location) params.set('type', filters.location)
+      if (filters.experienceLevel) params.set('level', filters.experienceLevel)
+      
+      if (currentPage > 1) params.set('page', currentPage)
+
+      return params
+    })
     
     /*
     *  El useEffect estaba causando un loop infinito al momento de
     *  actualizar la URL con navigateTo. Será una solución temporal
     *  hasta que se implemente el hook useCallback.
     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, filters, textToFilter])
+
+  }, [currentPage, filters, textToFilter, setSearchParams])
 
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE); 
 
