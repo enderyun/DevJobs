@@ -12,15 +12,15 @@ El proyecto se encuentra en constante evolución, integrando nuevas tecnologías
 
 ### 🔹 Tecnologías Actuales
 
-- **React**: Construcción de componentes y manejo del estado de la interfaz.
-- **Vite**: Build tool y entorno de desarrollo de alto rendimiento.
 - **CSS Modules / Vanilla CSS**: Diseño responsivo y estilización modular.
+- **Vite**: Build tool y entorno de desarrollo de alto rendimiento.
+- **React**: Construcción de componentes y manejo del estado de la interfaz.
+- **React Router**: Implementación de un sistema de enrutamiento dinámico tipo SPA (Single Page Application).
 
 ### 🔹 Roadmap y Futuras Implementaciones
 
 Las siguientes tecnologías serán integradas progresivamente para robustecer la aplicación:
 
-- **React Router**: Implementación de un sistema de enrutamiento dinámico tipo SPA (Single Page Application).
 - **Express.js**: Desarrollo del servidor y API RESTful.
 - **TypeScript**: Migración a TS para asegurar tipado estático y reducir errores en tiempo de ejecución.
 - **SQL**: Diseño y gestión de bases de datos relacionales para persistencia de datos.
