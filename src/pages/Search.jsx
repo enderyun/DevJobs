@@ -32,7 +32,7 @@ const useFilters = () => {
   const [total, setTotal] =useState(0)
   const [loading, setLoading] = useState(true);
 
-  const { navigateTo } = useRouter()
+  const { navigateTo } = useRouter() // No se usa por el momento
 
   // Para el boton "limpiar filtros" en el SearchFormSection
   const hasActiveFilters = Object.values(filters).some(value => value !== "")
@@ -148,7 +148,7 @@ const useFilters = () => {
   }
 }
 
-export function SearchPage() {  
+export default function SearchPage() {  
 
   const { jobs, loading, currentPage, totalPages, filters, textToFilter, hasActiveFilters, handlePageChange, handleSearch, handleTextFilter, handleClearFilters } = useFilters();
 

@@ -3,7 +3,7 @@
   que se veran a continuacion en el futuro. 
 */
 
-export function ContactPage() {
+export default function ContactPage() {
 
   // Logica temporal aca
 
