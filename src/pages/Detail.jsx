@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
 import { useParams, useNavigate } from "react-router"
 import { Link } from "../components/Link.jsx"
 import snarkdown from "snarkdown"
@@ -45,7 +46,7 @@ function DetailPageBreadcrumb({ job }) {
   )
 }
 
-function DetailPageHeader({ job, isLoggedIn }) {
+function DetailPageHeader({ job }) {
   return (
     <>  
       <header className={styles.header}>
@@ -57,12 +58,13 @@ function DetailPageHeader({ job, isLoggedIn }) {
         </p>
       </header>
 
-      <DetailApplyButton isLoggedIn={isLoggedIn} />
+      <DetailApplyButton />
     </>
   )
 } 
 
-function DetailApplyButton({ isLoggedIn }) {
+function DetailApplyButton() {
+  const { isLoggedIn } = useContext(AuthContext)
   return (
     <button disabled={!isLoggedIn} className={styles.applyButton}>
       {isLoggedIn ? 'Aplicar ahora' : 'Iniciar sesión para aplicar'}
@@ -70,7 +72,7 @@ function DetailApplyButton({ isLoggedIn }) {
   )
 }
 
-export default function JobDetail({ isLoggedIn }) {
+export default function JobDetail() {
   const { jobId } = useParams()
   const navigate = useNavigate()
 
@@ -129,7 +131,7 @@ export default function JobDetail({ isLoggedIn }) {
     <div style={{maxWidth: '1280px', margin: '0 auto', padding: '0 1rem'}}>
 
       <DetailPageBreadcrumb job={job} />
-      <DetailPageHeader job={job} isLoggedIn={isLoggedIn} />
+      <DetailPageHeader job={job} />
 
       <JobSection title="Descripción del puesto" content={job.content.description} />
       <JobSection title="Responsabilidades" content={job.content.responsibilities} />
