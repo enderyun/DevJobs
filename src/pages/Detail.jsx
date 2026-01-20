@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { useAuth } from "../context/AuthContext"
 import { useParams, useNavigate } from "react-router"
 import { Link } from "../components/Link.jsx"
 import snarkdown from "snarkdown"
 import styles from "./Detail.module.css"
+import { useAuthStore } from "../store/authStore.js"
 
 
 // TODO: lo recomendable es que las funciones anexas a JobDetail
@@ -64,7 +64,7 @@ function DetailPageHeader({ job }) {
 } 
 
 function DetailApplyButton() {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuthStore()
   return (
     <button disabled={!isLoggedIn} className={styles.applyButton}>
       {isLoggedIn ? 'Aplicar ahora' : 'Iniciar sesión para aplicar'}
