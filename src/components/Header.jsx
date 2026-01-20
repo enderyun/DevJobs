@@ -1,7 +1,7 @@
 import { Link } from "./Link.jsx";
 import { NavLink } from "react-router";
 
-export function Header() {
+export function Header({ isLoggedIn, onLogin, onLogout }) {
   return (
     <header>
       <Link href="/" style={{ textDecoration: "none"}}>
@@ -42,6 +42,12 @@ export function Header() {
           Acerca de
         </NavLink>
       </nav>
+
+      {
+        isLoggedIn
+        ? <button onClick={onLogout}>Cerrar sesión</button>
+        : <button onClick={onLogin}>Iniciar sesión</button>
+      }
 
     </header>
   )

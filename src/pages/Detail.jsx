@@ -4,6 +4,10 @@ import { Link } from "../components/Link.jsx"
 import snarkdown from "snarkdown"
 import styles from "./Detail.module.css"
 
+
+// TODO: lo recomendable es que las funciones anexas a JobDetail
+// se pasen a diferentes componentes (archivos)
+
 function JobSection({ title, content }) {
   const html = snarkdown(content ?? '')
 
@@ -14,7 +18,10 @@ function JobSection({ title, content }) {
       </h2>
 
       <div className={`${styles.sectionContent} prose`}
-        dangerouslySetInnerHTML={{ //XD (verificar alternativas como react-markdown)
+        // TODO: Verificar alternativas como react-markdown.
+        // Aunque es peligroso, sabemos de antemano que 
+        // la data viene de un API controlada por nosotros.
+        dangerouslySetInnerHTML={{ 
           __html: html 
         }} 
       />
@@ -23,7 +30,47 @@ function JobSection({ title, content }) {
   )
 }
 
-export default function JobDetail() {
+function DetailPageBreadcrumb({ job }) {
+  return (
+    <nav className={styles.breadcrumbs}>
+      <Link 
+        to="/search"
+        className={styles.breadcrumbButton}
+      >
+        Inicio
+      </Link>
+      <span className={styles.breadcrumbSeparator}>/</span>
+      <span className={styles.breadcrumbCurrent}>{job.titulo}</span>
+    </nav>
+  )
+}
+
+function DetailPageHeader({ job, isLoggedIn }) {
+  return (
+    <>  
+      <header className={styles.header}>
+        <h1 className={styles.title}>
+          {job.titulo}
+        </h1>
+        <p className={styles.meta}>
+          {job.empresa} - {job.ubicacion}
+        </p>
+      </header>
+
+      <DetailApplyButton isLoggedIn={isLoggedIn} />
+    </>
+  )
+} 
+
+function DetailApplyButton({ isLoggedIn }) {
+  return (
+    <button disabled={!isLoggedIn} className={styles.applyButton}>
+      {isLoggedIn ? 'Aplicar ahora' : 'Iniciar sesión para aplicar'}
+    </button>
+  )
+}
+
+export default function JobDetail({ isLoggedIn }) {
   const { jobId } = useParams()
   const navigate = useNavigate()
 
@@ -80,34 +127,10 @@ export default function JobDetail() {
 
   return (
     <div style={{maxWidth: '1280px', margin: '0 auto', padding: '0 1rem'}}>
-      <div className={styles.container}>
 
-        <nav className={styles.breadcrumbs}>
-          <Link 
-            to="/search"
-            className={styles.breadcrumbButton}
-          >
-            Inicio
-          </Link>
-          <span className={styles.breadcrumbSeparator}>/</span>
-          <span className={styles.breadcrumbCurrent}>{job.titulo}</span>
-        </nav>
-    
-      </div>
+      <DetailPageBreadcrumb job={job} />
+      <DetailPageHeader job={job} isLoggedIn={isLoggedIn} />
 
-      <header className={styles.header}>
-        <h1 className={styles.title}>
-          {job.titulo}
-        </h1>
-        <p className={styles.meta}>
-          {job.empresa} - {job.ubicacion}
-        </p>
-      </header>
-
-      <button className={styles.applyButton}>
-        Aplicar ahora
-      </button>
-      
       <JobSection title="Descripción del puesto" content={job.content.description} />
       <JobSection title="Responsabilidades" content={job.content.responsibilities} />
       <JobSection title="Requisitos" content={job.content.requirements} />

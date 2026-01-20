@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { SearchFormSection } from "../components/SearchFormSection.jsx";
 import { JobListings } from "../components/JobListings.jsx";
 import { Pagination } from "../components/Pagination.jsx";
-import { useRouter } from "../hooks/useRouter.jsx";
 import { useSearchParams } from "react-router";
 
 const RESULTS_PER_PAGE = 4; // Cambiar si es necesario
@@ -14,13 +13,13 @@ const useFilters = () => {
 
   const [ filters, setFilters ] = useState(() => { 
     return {
-      technology: searchParams.get('technology') || '',
-      location: searchParams.get('type') || '',
-      experienceLevel: searchParams.get('level') || '',
+      technology: searchParams.get('technology'),
+      location: searchParams.get('type'),
+      experienceLevel: searchParams.get('level'),
     }
   })
 
-  const [ textToFilter, setTextToFilter ] = useState(() => searchParams.get('text') || '')
+  const [ textToFilter, setTextToFilter ] = useState(() => searchParams.get('text'))
 
   const [ currentPage, setCurrentPage ] = useState(() => { 
     const page = Number(searchParams.get('page'))
@@ -32,7 +31,6 @@ const useFilters = () => {
   const [total, setTotal] =useState(0)
   const [loading, setLoading] = useState(true);
 
-  const { navigateTo } = useRouter() // No se usa por el momento
 
   // Para el boton "limpiar filtros" en el SearchFormSection
   const hasActiveFilters = Object.values(filters).some(value => value !== "")

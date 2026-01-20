@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { lazy, Suspense } from "react";
 
 //Components
@@ -14,14 +15,24 @@ const NotFoundPage = lazy(() => import("./pages/404.jsx"));
 const JobDetail = lazy(() => import("./pages/Detail.jsx"));
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+  }
+
   return (
     <>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onLogin={handleLogin} onLogout={handleLogout} />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/jobs/:jobId" element={<JobDetail />} />
+          <Route path="/jobs/:jobId" element={<JobDetail isLoggedIn={isLoggedIn} />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
