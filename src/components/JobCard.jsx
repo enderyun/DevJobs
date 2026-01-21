@@ -2,9 +2,25 @@
 import { useState } from "react";
 import { Link } from "./Link.jsx";
 import styles from "./JobCard.module.css";
+import { useAuthStore } from "../store/authStore.js";
+import { useFavoritesStore } from "../store/favoritesStore.js";
+
+function JobCardFavoriteButton({ job }) {
+  const { toggleFavorite, isFavorite } = useFavoritesStore()
+
+  return (
+    <button 
+    onClick={() => toggleFavorite(job.id)}
+    aria-label={isFavorite(job.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
+    >
+      {isFavorite(job.id) ? "❤️" : "🤍"}
+    </button>
+  )
+}
 
 export function JobCard({ job }) {
   const [isApplied, setIsApplied] = useState(false);
+  const { isLoggedIn } = useAuthStore()
 
   function handleApplyClick() {
     setIsApplied(!isApplied);
@@ -39,6 +55,8 @@ export function JobCard({ job }) {
           <button className={buttonClass} onClick={handleApplyClick}>
             {buttonText}
           </button>
+          
+          {isLoggedIn && <JobCardFavoriteButton job={job} />}
         </div>
       </article>
     </>
