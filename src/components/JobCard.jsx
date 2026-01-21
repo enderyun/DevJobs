@@ -7,9 +7,11 @@ import { useFavoritesStore } from "../store/favoritesStore.js";
 
 function JobCardFavoriteButton({ job }) {
   const { toggleFavorite, isFavorite } = useFavoritesStore()
+  const { isLoggedIn } = useAuthStore()
 
   return (
     <button 
+    disabled={!isLoggedIn}
     onClick={() => toggleFavorite(job.id)}
     aria-label={isFavorite(job.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
     >
@@ -18,7 +20,7 @@ function JobCardFavoriteButton({ job }) {
   )
 }
 
-export function JobCard({ job }) {
+function JobCardApplyButton ({ jobId }) {
   const [isApplied, setIsApplied] = useState(false);
   const { isLoggedIn } = useAuthStore()
 
@@ -31,6 +33,18 @@ export function JobCard({ job }) {
     ? "button-apply-job is-applied"
     : "button-apply-job";
 
+  return (
+    <button 
+    disabled={!isLoggedIn}
+    className={buttonClass} 
+    onClick={handleApplyClick}
+    >
+      {buttonText}
+    </button>
+  )
+}
+
+export function JobCard({ job }) {
   return (
     <>
       <article
@@ -52,11 +66,8 @@ export function JobCard({ job }) {
           <Link to={`/jobs/${job.id}`} className={styles.details}>
             Ver Detalles
           </Link>
-          <button className={buttonClass} onClick={handleApplyClick}>
-            {buttonText}
-          </button>
-          
-          {isLoggedIn && <JobCardFavoriteButton job={job} />}
+          <JobCardApplyButton jobId={job.id}/>      
+          <JobCardFavoriteButton job={job} />
         </div>
       </article>
     </>

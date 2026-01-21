@@ -4,6 +4,7 @@ import { Link } from "../components/Link.jsx"
 import snarkdown from "snarkdown"
 import styles from "./Detail.module.css"
 import { useAuthStore } from "../store/authStore.js"
+import { useFavoritesStore } from "../store/favoritesStore.js"
 
 
 // TODO: lo recomendable es que las funciones anexas a JobDetail
@@ -59,6 +60,8 @@ function DetailPageHeader({ job }) {
       </header>
 
       <DetailApplyButton />
+      <DetailFavoriteButton jobId={job.id} />
+
     </>
   )
 } 
@@ -68,6 +71,19 @@ function DetailApplyButton() {
   return (
     <button disabled={!isLoggedIn} className={styles.applyButton}>
       {isLoggedIn ? 'Aplicar ahora' : 'Iniciar sesión para aplicar'}
+    </button>
+  )
+}
+
+function DetailFavoriteButton ({ jobId }) {
+  const { toggleFavorite, isFavorite } = useFavoritesStore()
+
+  return (
+    <button 
+    onClick={() => toggleFavorite(jobId)}
+    aria-label={isFavorite(jobId) ? "Quitar de favoritos" : "Agregar a favoritos"}
+    >
+      {isFavorite(jobId) ? "❤️" : "🤍"}
     </button>
   )
 }
