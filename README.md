@@ -22,12 +22,11 @@ El proyecto se encuentra en constante evolución, integrando nuevas tecnologías
 Las siguientes tecnologías serán integradas progresivamente para robustecer la aplicación:
 
 - **Express.js**: Desarrollo del servidor y API RESTful.
-- **TypeScript**: Migración a TS para asegurar tipado estático y reducir errores en tiempo de ejecución.
-- **SQL**: Diseño y gestión de bases de datos relacionales para persistencia de datos.
-- **Docker**: Contenerización de servicios para garantizar entornos dev/prod consistentes.
-- **CI/CD**: Pipelines de Integración y Entrega Continua para automatizar testing y despliegues.
-- **DevOps**: Configuración de servidores y orquestación.
 - **MCP (Model Context Protocol)**: Integración de herramientas de IA y contexto.
+- **SQL**: Diseño y gestión de bases de datos relacionales para persistencia de datos.
+- **TypeScript**: Migración a TS para asegurar tipado estático y reducir errores en tiempo de ejecución.
+- **CI/CD**: Pipelines de Integración y Entrega Continua para automatizar testing y despliegues.
+- **DevOps y Docker**: Contenerización de servicios para garantizar entornos dev/prod consistentes.
 
 ## ⚡ Instalación y Ejecución
 
