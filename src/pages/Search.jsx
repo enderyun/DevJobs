@@ -90,12 +90,6 @@ const useFilters = () => {
 
       return params
     })
-    
-    /*
-    *  El useEffect estaba causando un loop infinito al momento de
-    *  actualizar la URL con navigateTo. Será una solución temporal
-    *  hasta que se implemente el hook useCallback.
-    */
 
   }, [currentPage, filters, textToFilter, setSearchParams])
 

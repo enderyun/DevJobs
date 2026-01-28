@@ -16,12 +16,12 @@ El proyecto se encuentra en constante evolución, integrando nuevas tecnologías
 - **Vite**: Build tool y entorno de desarrollo de alto rendimiento.
 - **React**: Construcción de componentes y manejo del estado de la interfaz.
 - **React Router**: Implementación de un sistema de enrutamiento dinámico tipo SPA (Single Page Application).
+- **Express**: Desarrollo del servidor y API RESTful.
 
 ### 🔹 Roadmap y Futuras Implementaciones
 
-Las siguientes tecnologías serán integradas progresivamente para robustecer la aplicación:
+Las siguientes tecnologías se integrarán progresivamente para robustecer la aplicación:
 
-- **Express.js**: Desarrollo del servidor y API RESTful.
 - **MCP (Model Context Protocol)**: Integración de herramientas de IA y contexto.
 - **SQL**: Diseño y gestión de bases de datos relacionales para persistencia de datos.
 - **TypeScript**: Migración a TS para asegurar tipado estático y reducir errores en tiempo de ejecución.
@@ -42,12 +42,12 @@ Para correr este proyecto localmente:
 2.  **Instalar dependencias:**
 
     ```bash
-    pnpm install
+    npm install
     ```
 
 3.  **Iniciar el servidor de desarrollo:**
     ```bash
-    pnpm run dev
+    npm run dev
     ```
 
 ## 🎯 Objetivos de Aprendizaje
