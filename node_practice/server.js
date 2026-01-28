@@ -1,4 +1,6 @@
 import { createServer } from "node:http"
+import { json } from "node:stream/consumers"
+import { randomUUID } from "node:crypto"
 import ms from "ms"
 
 process.loadEnvFile() 
@@ -10,29 +12,58 @@ function sendJson(res, statusCode, data) {
   res.end(JSON.stringify(data))
 }
 
-const server = createServer((req, res) => {
+const users = [
+  { id: 1, name: 'Chris'}, 
+  { id: 2, name: 'Denise'}
+]
+
+const server = createServer(async (req, res) => {
   const { method, url } = req
 
-  if (method !== 'GET') {
-    return sendJson(res, 405, { error: 'Method Not Allowed' })
+  const [pathname, querystrings] = url.split('?')
+
+  const searchParams = new URLSearchParams(querystrings)
+
+  if (method === 'GET') {
+    if (pathname === '/users') {
+
+      const limit = Number(searchParams.get('limit')) || users.length
+      const offset = Number(searchParams.get('offset')) || 0
+
+      const paginatedUsers = users.slice(offset, offset + limit)
+      return sendJson(res, 200, paginatedUsers)
+    }
+  
+    if (pathname === '/health') {
+      return sendJson(res, 200, { status: 'ok', uptime: ms(process.uptime() * 1000)})
+    }
   }
 
-  if (url === '/') {
+  if (method === 'POST') {
+    if (pathname === '/users') {
+      const body = await json(req)
+      console.log(body)
+
+      if (!body || !body.name) {
+        return sendJson(res, 400, { message: 'Name is required' })
+      }
+
+      const newUser = {
+        id: randomUUID(),
+        name: body.name,
+      }
+
+      users.push(newUser)
+      return sendJson(res, 201, { message: 'User created' })
+    }
+  }
+
+  if (pathname === '/') {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8')
     res.statusCode = 200
-    return res.end('Hola desde Node.js!\n')
+    return res.end('Hello World!')
   }
 
-  if (url === '/users') {
-    return sendJson(res, 200, [
-      { id: 1, name: 'chris'}, 
-      { id: 2, name: 'denise'}
-    ])
-  }
-
-  if (url === '/health') {
-    return sendJson(res, 200, { status: 'ok', uptime: ms(process.uptime() * 1000)})
-  }
 
   return sendJson(res, 404, 'Not Found')
 })
