@@ -1,6 +1,7 @@
 import express from "express"
 import ms from "ms" // para convertir el tiempo de ejecucion a un formato legible
 import process from "process" // Es innecesario, pero ESLINT lo pide
+import cors from "cors"
 
 import jobs from "./jobs.json" with { type: "json" }
 import { DEFAULTS } from "./config.js"
@@ -8,6 +9,22 @@ import { DEFAULTS } from "./config.js"
 
 const PORT = process.env.PORT || DEFAULTS.PORT
 const app = express()
+
+
+const ACCEPTED_ORIGINS = [
+  "http://localhost:5173",
+]
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (ACCEPTED_ORIGINS.includes(origin)) {
+      return callback(null, true) 
+    } else {
+      return callback(new Error('Not allowed by CORS'))
+    }
+  }
+}))
+
 
 app.use(express.json()) // Parsear peticiones POST de body a json
 
@@ -61,7 +78,7 @@ app.get('/jobs', (req, res) => {
   // muchos empleos. En este caso es un archivo pequeño, asi que se usará
   // el import normal
   // const {default: jobs} = await import("./jobs.json", { with: { type: "json" } })
-  return res.json(paginatedJobs)
+  return res.json({data: paginatedJobs, total: filteredJobs.length, limit: limitNumber, offset: offsetNumber})
 })
 
 app.get('/jobs/:id', (req, res) => {
@@ -94,7 +111,11 @@ app.post('/jobs', (req, res) => {
 })
 
 app.put('/jobs/:id', (req, res) => {
-  // TODO
+  const { id } = req.params
+  const { titulo, empresa, ubicacion, descripcion, data } = req.body
+
+  
+
 })
 
 app.patch('/jobs/:id', (req, res) => {
