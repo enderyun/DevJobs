@@ -1,10 +1,15 @@
 import express from "express"
 import ms from "ms" // para convertir el tiempo de ejecucion a un formato legible
+import process from "process" // Es innecesario, pero ESLINT lo pide
+
 import jobs from "./jobs.json" with { type: "json" }
 import { DEFAULTS } from "./config.js"
 
+
 const PORT = process.env.PORT || DEFAULTS.PORT
 const app = express()
+
+app.use(express.json()) // Parsear peticiones POST de body a json
 
 app.use((req, res, next) => { 
   const timeString = new Date().toLocaleTimeString()
@@ -23,8 +28,8 @@ app.get('/health', (req, res) => {
   })
 })
 
-app.get('/get-jobs', (req, res) => {
-  const { text, title, level, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
+app.get('/jobs', (req, res) => {
+  const { text, level, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
 
   let filteredJobs = jobs
 
@@ -59,22 +64,45 @@ app.get('/get-jobs', (req, res) => {
   return res.json(paginatedJobs)
 })
 
-app.get('/get-single-job/:id', (req, res) => {
+app.get('/jobs/:id', (req, res) => {
   const { id } = req.params
 
-  const idNumber = Number(id)
+  const job = jobs.find(job => job.id === id)
 
+  if (!job) {
+    return res.status(404).json({ error: 'Job not found' })
+  }
 
-  return res.json({
-    job: {
-      id: idNumber,
-      title: 'Frontend Developer',
-      company: 'Tech Corp',
-      location: 'Remote',
-      salary: '€50,000',
-      description: 'We are looking for a Frontend Developer to join our team.'
-    }
-  })
+  return res.json(job)
+})
+
+app.post('/jobs', (req, res) => {
+  const { titulo, empresa, ubicacion, descripcion, data } = req.body
+
+  const newJob = {
+    id: crypto.randomUUID(),
+    titulo,
+    empresa,
+    ubicacion,
+    descripcion,
+    data
+  }
+
+  jobs.push(newJob) // Se hace en una base de datos con un INSERT
+
+  return res.status(201).json(newJob)
+})
+
+app.put('/jobs/:id', (req, res) => {
+  // TODO
+})
+
+app.patch('/jobs/:id', (req, res) => {
+  // TODO
+})
+
+app.delete('/jobs/:id', (req, res) => {
+  // TODO
 })
 
 app.listen(PORT, () => {
