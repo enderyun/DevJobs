@@ -9,7 +9,7 @@ function JobCardFavoriteButton({ job }) {
   const { toggleFavorite, isFavorite } = useFavoritesStore()
   const { isLoggedIn } = useAuthStore()
 
-  return (
+return (
     <button 
     disabled={!isLoggedIn}
     onClick={() => toggleFavorite(job.id)}
