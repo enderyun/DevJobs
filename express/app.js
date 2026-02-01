@@ -14,6 +14,12 @@ app.use(express.json()) // Parsear peticiones POST de body a json
 
 app.use('/jobs', jobsRouter)
 
-app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`)
-})
+
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log('El entorno actual es:', process.env.NODE_ENV);
+    console.log(`Server running on port http://localhost:${PORT}`)
+  })
+}
+
+export default app
