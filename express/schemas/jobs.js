@@ -1,3 +1,5 @@
+// Middleware entre las rutas CRUD de 
+
 import * as z from "zod"
 
 const jobSchema = z.object({

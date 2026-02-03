@@ -51,7 +51,8 @@ export default function HomePage() {
             </svg>
             <input
               name="search"
-              type="text"
+              required
+              type="search"
               placeholder="Buscar empleos por titulo, habilidad o empresa"
             />
             <button type="submit">Buscar</button>
