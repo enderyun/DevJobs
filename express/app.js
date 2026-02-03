@@ -14,8 +14,9 @@ app.use(express.json()) // Parsear peticiones POST de body a json
 
 app.use('/jobs', jobsRouter)
 
-
-if (process.env.NODE_ENV !== 'production') {
+// Por defecto es undefined.
+// El cambio sirve para "production" y "test"
+if (!process.env.NODE_ENV) { // procces.env.NODE_ENV === 'development' 
   app.listen(PORT, () => {
     console.log('El entorno actual es:', process.env.NODE_ENV);
     console.log(`Server running on port http://localhost:${PORT}`)

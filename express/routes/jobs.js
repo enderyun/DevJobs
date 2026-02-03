@@ -1,12 +1,12 @@
 import { Router } from "express"
-import { JopController } from "../controllers/jobs.js"
+import { JobController } from "../controllers/jobs.js"
 
 export const jobsRouter = Router()
 
 // CRUD
-jobsRouter.get('/', JopController.getAll) 
-jobsRouter.get('/:id', JopController.getById)
-jobsRouter.post('/', JopController.create)
-jobsRouter.put('/:id', JopController.update)
-jobsRouter.patch('/:id', JopController.partialUpdate)
-jobsRouter.delete('/:id', JopController.delete)
+jobsRouter.get('/', JobController.getAll) 
+jobsRouter.get('/:id', JobController.getById)
+jobsRouter.post('/', JobController.create)
+jobsRouter.put('/:id', JobController.update)
+jobsRouter.patch('/:id', JobController.partialUpdate)
+jobsRouter.delete('/:id', JobController.delete)

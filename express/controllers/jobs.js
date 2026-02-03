@@ -1,7 +1,7 @@
 import { DEFAULTS } from "../config.js"
 import { JobModel } from "../models/job.js"
 
-export class JopController {
+export class JobController {
   static async getAll(req, res) {
     const { text, level, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
 
