@@ -17,6 +17,8 @@ El proyecto se encuentra en constante evolución, integrando nuevas tecnologías
 - **React**: Construcción de componentes y manejo del estado de la interfaz.
 - **React Router**: Implementación de un sistema de enrutamiento dinámico tipo SPA (Single Page Application).
 - **Express**: Desarrollo del servidor y API RESTful.
+- **Playwright**: Pruebas End-to-End (E2E) para asegurar flujos en el proyecto.
+- **Stagehand**: Experimentación con testing asistido por IA para pruebas más flexibles.
 
 ### 🔹 Roadmap y Futuras Implementaciones
 
@@ -59,4 +61,3 @@ Este proyecto busca consolidar mis conocimientos en:
 - Diseño y consumo de APIs.
 - Automatización de flujos de trabajo (Workflows).
 - Buenas prácticas de código limpio y mantenible.
-
