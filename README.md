@@ -1,16 +1,16 @@
-# DevJobs 💼
+# DevJobs 
 
-## 🚀 Acerca del Proyecto
+## Acerca del Proyecto
 
 **DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje a través de un Bootcamp, donde aplico mejores prácticas de desarrollo de software moderno.
 
 El objetivo es crear una aplicación **Full Stack** completa, aprendiendo y puliendo habilidades tanto de Frontend como de Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento.
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 El proyecto se encuentra en constante evolución, integrando nuevas tecnologías en cada etapa del desarrollo.
 
-### 🔹 Tecnologías Actuales
+### Tecnologías Actuales
 
 - **CSS Modules / Vanilla CSS**: Diseño responsivo y estilización modular.
 - **Vite**: Build tool y entorno de desarrollo de alto rendimiento.
@@ -20,7 +20,7 @@ El proyecto se encuentra en constante evolución, integrando nuevas tecnologías
 - **Playwright**: Pruebas End-to-End (E2E) para asegurar flujos en el proyecto.
 - **Stagehand**: Experimentación con testing asistido por IA para pruebas más flexibles.
 
-### 🔹 Roadmap y Futuras Implementaciones
+### Roadmap y Futuras Implementaciones
 
 Las siguientes tecnologías se integrarán progresivamente para robustecer la aplicación:
 
@@ -30,7 +30,7 @@ Las siguientes tecnologías se integrarán progresivamente para robustecer la ap
 - **CI/CD**: Pipelines de Integración y Entrega Continua para automatizar testing y despliegues.
 - **DevOps y Docker**: Contenerización de servicios para garantizar entornos dev/prod consistentes.
 
-## ⚡ Instalación y Ejecución
+## Instalación y Ejecución
 
 Para correr este proyecto localmente:
 
@@ -52,7 +52,7 @@ Para correr este proyecto localmente:
     npm run dev
     ```
 
-## 🎯 Objetivos de Aprendizaje
+## Objetivos de Aprendizaje
 
 Este proyecto busca consolidar mis conocimientos en:
 
