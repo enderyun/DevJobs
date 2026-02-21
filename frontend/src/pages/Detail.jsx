@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { Link } from "../components/Link.jsx"
 import snarkdown from "snarkdown"
-import styles from "./Detail.module.css"
+
+import { Link } from "../components/Link.jsx"
 import { useAuthStore } from "../store/authStore.js"
 import { useFavoritesStore } from "../store/favoritesStore.js"
+import { useAISummary } from "../hooks/useAISummary.jsx"
+
+import styles from "./Detail.module.css"
 
 const API_URL = import.meta.env.VITE_API_URL
 // TODO: lo recomendable es que las funciones anexas a JobDetail
@@ -89,39 +92,7 @@ function DetailFavoriteButton ({ jobId }) {
 }
 
 function AISummary ({ jobId }) {
-  const [summary, setSummary] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  const generateSummary = async () => {
-    setSummary('')
-    setLoading(true)
-    setError(null)
-
-    try {
-      const response = await fetch(`${API_URL}/ai/summary/${jobId}`)
-      if (!response.ok) {
-        throw new Error('Summary not found')
-      }
-
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        // cada chunk es un fragmento de texto
-        const chunkTest = decoder.decode(value, { stream: true })
-        setSummary(prev => prev + chunkTest)
-      }
-
-    } catch (error){
-      setError('Error al generar el resumen: ' + error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { summary, loading, error, generateSummary } = useAISummary(jobId)
 
   if (summary) {
     return (
