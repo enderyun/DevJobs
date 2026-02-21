@@ -61,7 +61,10 @@ aiRouter.get('/summary/:id', async (req, res) => {
   ].join('\n')
 
   try {
-    const response = await genAI.models.generateContent({
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+    res.setHeader('Transfer-Encoding', 'chunked')
+
+    const stream = await genAI.models.generateContentStream({
       model: CONFIG.MODEL_AI,
       contents: prompt,
       config: {
@@ -69,18 +72,23 @@ aiRouter.get('/summary/:id', async (req, res) => {
       }
     })
 
-    console.log('Gemini response: ', response)
+    console.log('Gemini response: ', stream)
 
-    const summary = response.text?.trim()
-
-    if(!summary) {
-      return res.status(502).json({ error: 'No summary generated' })
+    for await (const part of stream) {
+      const content = part.text?.trim()
+      if (content) {
+        res.write(content)
+      }
     }
 
-    return res.json({ summary })
+    return res.end() // La respuesta se completa cuando el stream termina 
 
   } catch (error) {
-    console.error('Error generating summary: ', error)
-    return res.status(500).json({ error: 'Error generating summary' })
+    if(!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json')
+      return res.status(500).json({ error: 'Error generating summary' })
+    }
+
+    return res.end()
   }
 })

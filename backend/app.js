@@ -9,7 +9,7 @@ import { aiRouter } from "./routes/ai.js"
 const PORT = process.env.PORT || DEFAULTS.PORT
 const app = express()
 
-app.set('trust proxy', 1) // Si estas detras de un proxy, es necesario para que rateLimit funcione correctamente
+app.set('trust proxy', 1) // Detras de un proxy, es necesario para que rateLimit funcione correctamente
 // con la IP real del cliente (como Vercel, Cloudflare, etc.)
 app.use(corsMiddleware())
 app.use(express.json()) // Parsear peticiones POST de body a json

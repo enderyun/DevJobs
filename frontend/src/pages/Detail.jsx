@@ -94,6 +94,7 @@ function AISummary ({ jobId }) {
   const [error, setError] = useState(null)
 
   const generateSummary = async () => {
+    setSummary('')
     setLoading(true)
     setError(null)
 
@@ -102,10 +103,21 @@ function AISummary ({ jobId }) {
       if (!response.ok) {
         throw new Error('Summary not found')
       }
-      const data = await response.json()
-      setSummary(data.summary)
-    } catch {
-      setError('Error al generar el resumen')
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        // cada chunk es un fragmento de texto
+        const chunkTest = decoder.decode(value, { stream: true })
+        setSummary(prev => prev + chunkTest)
+      }
+
+    } catch (error){
+      setError('Error al generar el resumen: ' + error)
     } finally {
       setLoading(false)
     }
