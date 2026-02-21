@@ -2,12 +2,38 @@ process.loadEnvFile()
 
 import { Router } from "express";
 import { GoogleGenAI } from "@google/genai";
+import rateLimit from "express-rate-limit";
 
 import { JobModel } from "../models/job.js";
 import { CONFIG } from "../config.js";
 
+/*
+  Mientras no se reinicie, va a guardar en store en memoria todos los usuarios que hagan peticiones
+  a partir de su IP; si se reinicia el servidor, se reinicia el contador (la memoria).
+  Esto tiene su desventaja cuando tenemos mas de un servidor, ya que cada servidor tendra su propia memoria.
+  Al igual que tiene su desventaja si el servidor se reinicia.
+  Sirve si es un prototipo o para un solo servidor basico.  
+*/
+/*
+  Para un solo servidor y se quiere compartir la memoria y se tiene diferentes instancias:
+  @express-rate-limit/cluster-memory-store
+  pero no es ideal si se quiere tener varios servidores y alta disponibilidad.
+
+  En ese caso, se utiliza:
+  rate-limit-redis
+  PostgreSQL, SQLite, etc.
+  (Ver documentacion)
+*/
+const aiRateLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // 5 requests per minute per IP
+  message: {error: 'Demasiadas peticiones. Por favor vuelve a intentarlo mas tarde.'},
+  legacyHeaders: false,
+  standardHeaders: 'draft-8' // Devuelve headers estandard RateLimit
+})
 
 export const aiRouter = Router() 
+aiRouter.use(aiRateLimiter)
 
 const genAI = new GoogleGenAI({
   apiKey: process.env.GOOGLE_API_KEY
