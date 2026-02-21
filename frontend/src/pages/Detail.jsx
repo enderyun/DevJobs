@@ -6,7 +6,7 @@ import styles from "./Detail.module.css"
 import { useAuthStore } from "../store/authStore.js"
 import { useFavoritesStore } from "../store/favoritesStore.js"
 
-
+const API_URL = import.meta.env.VITE_API_URL
 // TODO: lo recomendable es que las funciones anexas a JobDetail
 // se pasen a diferentes componentes (archivos)
 
@@ -88,6 +88,66 @@ function DetailFavoriteButton ({ jobId }) {
   )
 }
 
+function AISummary ({ jobId }) {
+  const [summary, setSummary] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const generateSummary = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(`${API_URL}/ai/summary/${jobId}`)
+      if (!response.ok) {
+        throw new Error('Summary not found')
+      }
+      const data = await response.json()
+      setSummary(data.summary)
+    } catch {
+      setError('Error al generar el resumen')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (summary) {
+    return (
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>
+          Resumen generado por IA
+        </h2>
+        <div className={styles.sectionContent}>
+          <p>{summary}</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>
+          Resumen generado por IA
+        </h2>
+        <div className={styles.sectionContent}>
+          <p>{error}</p>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <button 
+      onClick={generateSummary}
+      disabled={loading}
+      className={styles.applyButton}
+    >
+      {loading ? 'Generando resumen...' : 'Generar resumen'}
+    </button>
+  ) 
+}
+
 export default function JobDetail() {
   const { jobId } = useParams()
   const navigate = useNavigate()
@@ -97,7 +157,7 @@ export default function JobDetail() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(`https://jscamp-api.vercel.app/api/jobs/${jobId}`)
+    fetch(`${API_URL}/jobs/${jobId}`)
       .then(response => {
         if (!response.ok) throw new Error('Job Not Found')
         return response.json()
@@ -148,6 +208,7 @@ export default function JobDetail() {
 
       <DetailPageBreadcrumb job={job} />
       <DetailPageHeader job={job} />
+      <AISummary jobId={job.id} />
 
       <JobSection title="Descripción del puesto" content={job.content.description} />
       <JobSection title="Responsabilidades" content={job.content.responsibilities} />
