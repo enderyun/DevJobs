@@ -1,7 +1,5 @@
 # DevJobs 
 
-## Acerca del Proyecto
-
 **DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje a través de un Bootcamp, donde aplico mejores prácticas de desarrollo de software moderno.
 
 El objetivo es crear una aplicación **Full Stack** completa, aprendiendo y puliendo habilidades tanto de Frontend como de Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento.
