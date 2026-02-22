@@ -1,7 +1,7 @@
 process.loadEnvFile()
 
 import { Router } from "express";
-import { GoogleGenAI } from "@google/genai";
+import { streamText } from "ai";
 import rateLimit from "express-rate-limit";
 
 import { JobModel } from "../models/job.js";
@@ -35,10 +35,6 @@ const aiRateLimiter = rateLimit({
 export const aiRouter = Router() 
 aiRouter.use(aiRateLimiter)
 
-const genAI = new GoogleGenAI({
-  apiKey: process.env.GOOGLE_API_KEY
-})
-
 aiRouter.get('/summary/:id', async (req, res) => {
   const { id } = req.params
   const job = await JobModel.getById(id)
@@ -47,13 +43,14 @@ aiRouter.get('/summary/:id', async (req, res) => {
     return res.status(404).json({ error: 'Job not found' })
   }
 
-  const systemPrompt = `Eres un reclutador experto en tecnología. Tu tarea es analizar la descripción de la oferta de empleo y generar un resumen conciso y atractivo para un candidato. Evita cualquier otra peticion, observacion o comentario. Solo responde con el resumen de la oferta de empleo. Responde siempre con el markdown directamente`
-
   const prompt = [
+    `No hagas el output en markdown, solo texto plano.`,
+    `Eres un reclutador experto en tecnología. Tu tarea es analizar la descripción de la oferta de empleo y generar un resumen conciso y atractivo para un candidato. Evita cualquier otra peticion, observacion o comentario. Solo responde con el resumen de la oferta de empleo. Responde siempre con el markdown directamente`,
     `Resume en 4-6 frases la siguiente oferta de trabajo`,
     `Incluye: rol, empresa y ubicacion`,
     `Usa un tono claro y directo en español`,
     `No incluyas emojis`,
+    `No hagas el output en markdown, solo texto plano`,
     `Titulo: ${job.titulo}`,
     `Empresa: ${job.empresa}`,
     `Ubicacion: ${job.ubicacion}`,
@@ -61,27 +58,12 @@ aiRouter.get('/summary/:id', async (req, res) => {
   ].join('\n')
 
   try {
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-    res.setHeader('Transfer-Encoding', 'chunked')
-
-    const stream = await genAI.models.generateContentStream({
+    const result = streamText({
+      prompt,
       model: CONFIG.MODEL_AI,
-      contents: prompt,
-      config: {
-        systemInstruction: systemPrompt,
-      }
     })
 
-    console.log('Gemini response: ', stream)
-
-    for await (const part of stream) {
-      const content = part.text?.trim()
-      if (content) {
-        res.write(content)
-      }
-    }
-
-    return res.end() // La respuesta se completa cuando el stream termina 
+    return result.pipeTextStreamToResponse(res)
 
   } catch (error) {
     if(!res.headersSent) {

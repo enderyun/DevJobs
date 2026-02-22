@@ -11,7 +11,7 @@
     "testw": "NODE_ENV=test node --watch --test app.test.js"
   },
   "dependencies": {
-    "@google/genai": "^1.42.0",
+    "ai": "^6.0.97",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",

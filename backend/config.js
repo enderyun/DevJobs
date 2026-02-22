@@ -5,5 +5,5 @@ export const DEFAULTS = {
 }
 
 export const CONFIG = {
-    MODEL_AI: process.env.MODEL_AI || 'gemini-2.5-flash-lite'
+    MODEL_AI: process.env.MODEL_AI || 'mistral/devstral-small-2'
 }
