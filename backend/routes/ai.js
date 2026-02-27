@@ -50,7 +50,6 @@ aiRouter.get('/summary/:id', async (req, res) => {
     `Incluye: rol, empresa y ubicacion`,
     `Usa un tono claro y directo en español`,
     `No incluyas emojis`,
-    `No hagas el output en markdown, solo texto plano`,
     `Titulo: ${job.titulo}`,
     `Empresa: ${job.empresa}`,
     `Ubicacion: ${job.ubicacion}`,

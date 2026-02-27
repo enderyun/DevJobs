@@ -5,22 +5,22 @@ import styles from "./JobCard.module.css";
 import { useAuthStore } from "../store/authStore.js";
 import { useFavoritesStore } from "../store/favoritesStore.js";
 
-function JobCardFavoriteButton({ job }) {
+function JobCardFavoriteButton({ jobId }) {
   const { toggleFavorite, isFavorite } = useFavoritesStore()
   const { isLoggedIn } = useAuthStore()
 
   return (
     <button 
     disabled={!isLoggedIn}
-    onClick={() => toggleFavorite(job.id)}
-    aria-label={isFavorite(job.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
+    onClick={() => toggleFavorite(jobId)}
+    aria-label={isFavorite(jobId) ? "Quitar de favoritos" : "Agregar a favoritos"}
     >
-      {isFavorite(job.id) ? "❤️" : "🤍"}
+      {isFavorite(jobId) ? "❤️" : "🤍"}
     </button>
   )
 }
 
-function JobCardApplyButton ({ jobId }) {
+function JobCardApplyButton () {
   const [isApplied, setIsApplied] = useState(false);
   const { isLoggedIn } = useAuthStore()
 
@@ -66,8 +66,8 @@ export function JobCard({ job }) {
           <Link to={`/jobs/${job.id}`} className={styles.details}>
             Ver Detalles
           </Link>
-          <JobCardApplyButton jobId={job.id}/>      
-          <JobCardFavoriteButton job={job} />
+          <JobCardApplyButton />      
+          <JobCardFavoriteButton jobId={job.id} />
         </div>
       </article>
     </>
