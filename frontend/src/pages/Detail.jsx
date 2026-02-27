@@ -2,10 +2,10 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
 import snarkdown from "snarkdown"
 
-import { Link } from "../components/Link.jsx"
-import { useAuthStore } from "../store/authStore.js"
-import { useFavoritesStore } from "../store/favoritesStore.js"
-import { useAISummary } from "../hooks/useAISummary.jsx"
+import { Link } from "../components/Link.tsx"
+import { useAuthStore } from "../store/authStore.ts"
+import { useFavoritesStore } from "../store/favoritesStore.ts"
+import { useAISummary } from "../hooks/useAISummary.ts"
 
 import styles from "./Detail.module.css"
 
