@@ -1,11 +1,12 @@
 import { useState } from "react";
+import type { JobId } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export function useAISummary(jobId) {
-  const [summary, setSummary] = useState(null);
+export function useAISummary(jobId: JobId) {
+  const [summary, setSummary] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const generateSummary = async () => {
     setSummary("");
@@ -14,8 +15,14 @@ export function useAISummary(jobId) {
 
     try {
       const response = await fetch(`${API_URL}/ai/summary/${jobId}`);
+
       if (!response.ok) {
         throw new Error("Summary not found");
+      }
+
+      // response.body puede ser null
+      if (!response.body) {
+        throw new Error("The response does not contain a body");
       }
 
       const reader = response.body.getReader();

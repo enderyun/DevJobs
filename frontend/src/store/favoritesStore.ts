@@ -1,6 +1,18 @@
 import { create } from 'zustand'
+import { JobId } from '../types'
 
-export const useFavoritesStore = create((set, get, store) => ({
+interface FavoritesState { 
+  favorites: JobId[]
+  clearFavorites: () => void
+  addFavorite: (jobId: JobId) => void
+  removeFavorite: (jobId: JobId) => void
+  isFavorite: (jobId: JobId) => boolean
+  toggleFavorite: (jobId: JobId) => void
+  countFavorites: () => number
+}
+
+
+export const useFavoritesStore = create<FavoritesState>((set, get, store) => ({
   // Estados
   favorites: [],
 

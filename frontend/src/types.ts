@@ -17,4 +17,4 @@ export interface Job {
   }
 }
 
-export type jobId = Job['id']
+export type JobId = Job['id'] // string
