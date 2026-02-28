@@ -81,7 +81,9 @@ const useFilters = () => {
 
   // Actualizar la URL
   useEffect(() => {
-    setSearchParams((params) => {
+    setSearchParams(() => {
+      const params = new URLSearchParams()
+
       if (textToFilter) params.set('text', textToFilter)
       if (filters.technology) params.set('technology', filters.technology)
       if (filters.location) params.set('type', filters.location)

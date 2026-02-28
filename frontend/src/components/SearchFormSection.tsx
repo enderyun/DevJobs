@@ -1,9 +1,9 @@
 import { useId, useRef } from "react";
 
 interface SearchFilters {
-  technology?: FormDataEntryValue | null
-  location?: FormDataEntryValue | null
-  experienceLevel?: FormDataEntryValue | null
+  technology?: string
+  location?: string 
+  experienceLevel?: string 
 }
 
 interface UseSearchFormProps {
@@ -11,7 +11,7 @@ interface UseSearchFormProps {
   idLocation: string
   idExperienceLevel: string
   idText: string
-  inputRef: React.RefObject<HTMLFormElement>
+  inputRef: React.RefObject<HTMLFormElement | null>
   onSearch: (filters: SearchFilters) => void
   onTextFilter: (text: string) => void
   onClearFilters: () => void
@@ -30,9 +30,9 @@ interface SearchFormSectionProps {
 const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, inputRef, onSearch, onTextFilter, onClearFilters }: UseSearchFormProps) => {
   // const [searchText, setSearchText] = useState("") 
   
-  const timeoutId = useRef(null)
+  const timeoutId = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     /* 
     Cancela el fetch de los filtros, ya que el usuario está
     escribiendo en el input
@@ -62,7 +62,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, in
       technology: formData.get(idTechnology),
       location: formData.get(idLocation),
       experienceLevel: formData.get(idExperienceLevel)
-    }
+    } as SearchFilters
 
     onSearch(filters);
   }
@@ -85,7 +85,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, in
   // }
 
   const handleClearFilters = () => {
-    inputRef.current.reset(); 
+    inputRef.current?.reset(); 
     onClearFilters()
   }
 
@@ -101,7 +101,7 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
-  const inputRef = useRef()
+  const inputRef = useRef(null) // Usado para limpiar los filtros
 
   const { handleSubmit, handleClearFilters } = useSearchForm({ 
     idTechnology,
@@ -109,11 +109,6 @@ export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasA
     idExperienceLevel,
     idText,
     inputRef,
-    /*
-    No se usan en el codigo, sino que al venir del Search.jsx se necesita pasar por el 
-    SearchFormSection, y luego se envian al useSearchForm
-    */
-    hasActiveFilters,
     onSearch, // Proveniente del Search.jsx (filtros de technology, location y experienceLevel)
     onTextFilter, // Proveniente del Search.jsx (input text)
     onClearFilters // Proveniente del Search.jsx (limpiar filtros)

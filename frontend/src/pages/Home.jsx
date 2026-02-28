@@ -1,4 +1,4 @@
-import { useRouter } from "../hooks/useRouter.jsx";
+import { useRouter } from "../hooks/useRouter.ts";
 
 export default function HomePage() {
 

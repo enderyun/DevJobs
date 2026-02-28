@@ -1,6 +1,11 @@
-import { useRouter } from "../hooks/useRouter.jsx";
+import { useRouter } from "../hooks/useRouter.ts";
 
-export function Route({ path, component: Component }) {
+interface RouteProps {
+  path: string
+  component: React.ComponentType
+}
+
+export function Route({ path, component: Component }: RouteProps) {
 
   const { currentPath } = useRouter()
 

@@ -1,12 +1,12 @@
-# DevJobs 
+# DevJobs
 
-**DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje a través de un Bootcamp, donde aplico mejores prácticas de desarrollo de software moderno.
+**DevJobs** es una plataforma de búsqueda de empleo desarrollada como proyecto personal. Este repositorio documenta mi evolución y aprendizaje, donde aplico mejores prácticas de desarrollo de software.
 
 El objetivo es crear una aplicación **Full Stack** completa, aprendiendo y puliendo habilidades tanto de Frontend como de Backend, así como en la infraestructura necesaria para su despliegue y mantenimiento.
 
 ## Stack Tecnológico
 
-El proyecto se encuentra en constante evolución, integrando nuevas tecnologías en cada etapa del desarrollo.
+El proyecto está en constante evolución. A medida que voy avanzando con el desarrollo, voy integrando nuevas herramientas y tecnologías.
 
 ### Tecnologías Actuales
 
@@ -42,12 +42,12 @@ Para correr este proyecto localmente:
 2.  **Instalar dependencias:**
 
     ```bash
-    npm install
+    pnpm install
     ```
 
 3.  **Iniciar el servidor de desarrollo:**
     ```bash
-    npm run dev
+    pnpm run dev
     ```
 
 ## Objetivos de Aprendizaje
