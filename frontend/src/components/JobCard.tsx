@@ -1,11 +1,15 @@
 // Componente JobCard - Recibe los datos de un trabajo como prop
 import { useState } from "react";
-import { Link } from "./Link.jsx";
+import { Link } from "./Link.tsx";
 import styles from "./JobCard.module.css";
-import { useAuthStore } from "../store/authStore.js";
-import { useFavoritesStore } from "../store/favoritesStore.js";
+import { useAuthStore } from "../store/authStore.ts";
+import { useFavoritesStore } from "../store/favoritesStore.ts";
 
-function JobCardFavoriteButton({ jobId }) {
+// types 
+import type { Job } from "../types.js";
+import type { JobId } from '../types'
+
+function JobCardFavoriteButton({ jobId }: { jobId: JobId }) {
   const { toggleFavorite, isFavorite } = useFavoritesStore()
   const { isLoggedIn } = useAuthStore()
 
@@ -44,7 +48,7 @@ function JobCardApplyButton () {
   )
 }
 
-export function JobCard({ job }) {
+export function JobCard({ job }: { job: Job }) {
   return (
     <>
       <article
@@ -54,7 +58,7 @@ export function JobCard({ job }) {
         data-technology={job.data?.technology}
       >
         <div>
-          <Link to={`/jobs/${job.id}`} className={styles.title}>
+          <Link href={`/jobs/${job.id}`} className={styles.title}>
             <h3>{job.titulo}</h3>
           </Link>
           <small>
@@ -63,7 +67,7 @@ export function JobCard({ job }) {
           <p>{job.descripcion}</p>
         </div>
         <div className={styles.actions}>
-          <Link to={`/jobs/${job.id}`} className={styles.details}>
+          <Link href={`/jobs/${job.id}`} className={styles.details}>
             Ver Detalles
           </Link>
           <JobCardApplyButton />      

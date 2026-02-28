@@ -1,6 +1,9 @@
-import { JobCard } from "./JobCard.jsx";
+import { JobCard } from "./JobCard.tsx";
 
-export function JobListings ({ jobs }) {
+//types
+import type { Job } from "../types.ts";
+
+export function JobListings ({ jobs }: { jobs: Job[] }) {
   return (
     <>
       {

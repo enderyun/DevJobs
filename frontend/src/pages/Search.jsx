@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import { SearchFormSection } from "../components/SearchFormSection.jsx";
-import { JobListings } from "../components/JobListings.jsx";
-import { Pagination } from "../components/Pagination.jsx";
+import { SearchFormSection } from "../components/SearchFormSection.tsx";
+import { JobListings } from "../components/JobListings.tsx";
+import { Pagination } from "../components/Pagination.tsx";
 import { useSearchParams } from "react-router";
 
 const RESULTS_PER_PAGE = 4; // Cambiar si es necesario

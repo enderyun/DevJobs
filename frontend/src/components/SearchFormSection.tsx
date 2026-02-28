@@ -1,7 +1,33 @@
 import { useId, useRef } from "react";
 
+interface SearchFilters {
+  technology?: FormDataEntryValue | null
+  location?: FormDataEntryValue | null
+  experienceLevel?: FormDataEntryValue | null
+}
+
+interface UseSearchFormProps {
+  idTechnology: string
+  idLocation: string
+  idExperienceLevel: string
+  idText: string
+  inputRef: React.RefObject<HTMLFormElement>
+  onSearch: (filters: SearchFilters) => void
+  onTextFilter: (text: string) => void
+  onClearFilters: () => void
+}
+
+interface SearchFormSectionProps {
+  onSearch: (filters: SearchFilters) => void
+  onTextFilter: (text: string) => void
+  onClearFilters: () => void
+  hasActiveFilters: boolean
+  initialText?: string
+  initialFilters?: SearchFilters
+}
+
 // TODO: Esto es un hook, por lo que no debe estar en este componente
-const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, inputRef, onSearch, onTextFilter, onClearFilters }) => {
+const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, inputRef, onSearch, onTextFilter, onClearFilters }: UseSearchFormProps) => {
   // const [searchText, setSearchText] = useState("") 
   
   const timeoutId = useRef(null)
@@ -70,7 +96,7 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, in
   }
 }
 
-export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasActiveFilters, initialText, initialFilters }) { 
+export function SearchFormSection({ onSearch, onTextFilter, onClearFilters, hasActiveFilters, initialText, initialFilters }: SearchFormSectionProps) { 
   const idText = useId(); // Input 
   const idTechnology = useId();
   const idLocation = useId();

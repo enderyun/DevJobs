@@ -2,9 +2,9 @@ import { lazy, Suspense } from "react";
 
 //Components
 import { Routes, Route } from "react-router";
-import { Header } from "./components/Header.jsx";
-import { Footer } from "./components/Footer.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { Header } from "./components/Header.tsx";
+import { Footer } from "./components/Footer.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 //Pages
 const HomePage = lazy(() => import("./pages/Home.jsx"));

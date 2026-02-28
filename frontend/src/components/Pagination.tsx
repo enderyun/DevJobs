@@ -1,40 +1,46 @@
 import styles from "./Pagination.module.css"
 
-export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}) {
+interface PaginationProps { 
+  currentPage?: number
+  totalPages?: number
+  onPageChange: (page: number) => void
+}
+
+export function Pagination({ currentPage = 1, totalPages = 5, onPageChange}: PaginationProps) {
 	//Array de paginas para renderizar
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
 	const isFirstPage = currentPage === 1; 
 	const isLastPage = currentPage === totalPages;
 
-	const sytlePrevButton = isFirstPage ? {pointerEvents: "none", opacity: 0.5} : {};
-	const sytleNextButton = isLastPage ? {pointerEvents: "none", opacity: 0.5} : {};
+	const sytlePrevButton: React.CSSProperties = isFirstPage ? {pointerEvents: "none", opacity: 0.5} : {};
+	const sytleNextButton: React.CSSProperties = isLastPage ? {pointerEvents: "none", opacity: 0.5} : {};
 
-	const handlePrevClick = (event) => {
+	const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
 		event.preventDefault();
 		if (!isFirstPage) {
 			onPageChange(currentPage - 1);
 		}
 	}
 
-	const handleNextClick = (event) => {
+	const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
 		event.preventDefault();
 		if (!isLastPage) {
 			onPageChange(currentPage + 1);
 		}
 	}
 
-	const handleChangePage = (event) => {
+	const handleChangePage = (event: React.MouseEvent<HTMLAnchorElement>) => {
 		event.preventDefault();
-    const page = Number(event.target.dataset.page)
+    const page = Number((event.currentTarget.dataset.page))
 		if (page !== currentPage) {
 			onPageChange(page)
 		}
 	}
 
-  const buildPagesUrl = (page) => {
-    const url = new URL(window.location)
-    url.searchParams.set('page', page)
+  const buildPagesUrl = (page: number) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('page', String(page))
     return `${url.pathname}?${url.searchParams.toString()}`
   }
 
