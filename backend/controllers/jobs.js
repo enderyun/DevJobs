@@ -3,9 +3,9 @@ import { JobModel } from "../models/job.js"
 
 export class JobController {
   static async getAll(req, res) {
-    const { text, level, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
+    const { text, level, type, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
 
-    const {jobs, total} = await JobModel.getAll({text, level, technology, limit, offset})
+    const {jobs, total} = await JobModel.getAll({text, level, type, technology, limit, offset})
 
     // Import dinamico que puede servir si tenemos una base de datos con
     // muchos empleos. En este caso es un archivo pequeño, asi que se usará

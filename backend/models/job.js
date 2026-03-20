@@ -2,7 +2,7 @@ import jobs from "../data/jobs.json" with { type: "json" }
 import { DEFAULTS } from "../config.js"
 
 export class JobModel {
-  static async getAll({text, level, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET}) {
+  static async getAll({text, level, type, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET}) {
     
     let filteredJobs = jobs
 
@@ -14,14 +14,20 @@ export class JobModel {
     }
 
     if (technology) {
-      filteredJobs = filteredJobs.filter(job => 
-        job.data.technology.includes(technology)
+        filteredJobs = filteredJobs.filter(job => 
+          job.data.technology.includes(technology)
       )
     }
 
     if (level) {
       filteredJobs = filteredJobs.filter(job => 
         job.data.nivel.includes(level)
+      )
+    }
+
+    if (type) {
+      filteredJobs = filteredJobs.filter(job => 
+        job.data.modalidad.includes(type)
       )
     }
 
