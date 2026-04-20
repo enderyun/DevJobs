@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "ai": "^6.0.97",
+    "better-sqlite3": "^12.9.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.2",
@@ -19,5 +20,8 @@
   },
   "engines": {
     "node": ">=24.x"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13"
   }
 }
