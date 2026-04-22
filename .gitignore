@@ -26,3 +26,7 @@ dist-ssr
 # Environment variables
 **/.env
 **/.env.*
+
+# Workspace specific files 
+frontend/pnpm-lock.yaml
+backend/pnpm-lock.yaml
