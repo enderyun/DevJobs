@@ -1,12 +1,12 @@
 import Database from 'better-sqlite3'
 
 // Base de datos en memoria (se pierde al cerrar el proceso)
-const db = new Database(':memory:')
+const db = new Database('jobs.db')
 
 // Crear tabla
 db.exec(`
   CREATE TABLE IF NOT EXISTS jobs (
-    id TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     company TEXT NOT NULL,   
     modality TEXT NOT NULL
@@ -18,8 +18,8 @@ const insert = db.prepare(
   'INSERT INTO jobs (id, title, company, modality) VALUES (?, ?, ?, ?)'
 )
 
-insert.run('1', 'Frontend Developer', 'TechCorp', 'remote')
-insert.run('2', 'Backend Developer', 'StartupX', 'hybrid')
+insert.run('11', 'Frontend Developer', 'TechCorp', 'remote')
+insert.run('12', 'Backend Developer', 'StartupX', 'hybrid')
 
 // Consultar todos
 const allJobs = db.prepare('SELECT * FROM jobs').all()
