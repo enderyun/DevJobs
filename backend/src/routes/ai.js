@@ -1,4 +1,8 @@
-process.loadEnvFile()
+import { existsSync } from "node:fs"
+
+if (existsSync('.env')) {
+  process.loadEnvFile()
+}
 
 import { Router } from "express";
 import { streamText } from "ai";
