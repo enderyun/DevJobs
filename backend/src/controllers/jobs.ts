@@ -1,8 +1,9 @@
+import type { Request, Response } from "express"
 import { DEFAULTS } from "../config.js"
 import { JobModel } from "../models/job.js"
 
 export class JobController {
-  static async getAll(req, res) {
+  static async getAll(req: Request, res: Response) {
     const { text, level, type, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
 
     const {jobs, total} = await JobModel.getAll({text, level, type, technology, limit, offset})
@@ -14,7 +15,7 @@ export class JobController {
     return res.json({data: jobs, total, limit, offset})
   }
 
-  static async getById(req, res) {
+  static async getById(req: Request, res: Response) {
     const { id } = req.params
 
     const job = await JobModel.getById(id)
@@ -26,7 +27,7 @@ export class JobController {
     return res.json(job)
   }
 
-  static async create(req, res) {
+  static async create(req: Request, res: Response) {
     const { titulo, empresa, ubicacion, descripcion, data } = req.body
 
     const newJob = await JobModel.create({titulo, empresa, ubicacion, descripcion, data})
@@ -34,15 +35,15 @@ export class JobController {
     return res.status(201).json(newJob)
   }
 
-  static async update(req, res) {
+  static async update(req: Request, res: Response) {
     // TODO
   }
 
-  static async partialUpdate(req, res) {
+  static async partialUpdate(req: Request, res: Response) {
     // TODO
   }
 
-  static async delete(req, res) {
+  static async delete(req: Request, res: Response) {
     // TODO
   }
 }
