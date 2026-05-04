@@ -6,7 +6,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "node --watch src/app.js",
+    "dev": "tsx watch src/app.js",
     "test": "NODE_ENV=test node --test src/app.test.js",
     "testw": "NODE_ENV=test node --watch --test src/app.test.js"
   },
