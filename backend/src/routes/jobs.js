@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { JobController } from "../controllers/jobs.js"
+import { JobController } from "../controllers/jobs.ts"
 import { validateJob, validatePartialJob } from "../schemas/jobs.js"
 
 export const jobsRouter = Router()

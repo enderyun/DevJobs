@@ -8,7 +8,7 @@ import { Router } from "express";
 import { streamText } from "ai";
 import rateLimit from "express-rate-limit";
 
-import { JobModel } from "../models/job.js";
+import { JobModel } from "../models/job.ts";
 import { CONFIG } from "../config.js";
 
 /*
