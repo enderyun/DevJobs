@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@browserbasehq/stagehand": "^3.0.8"
   }
