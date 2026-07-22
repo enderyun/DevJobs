@@ -1,25 +1,17 @@
-// ================================
-// TIPOS PARA LA API EXPRESS
-// ================================
-
-// ================================
-// ENTIDADES
-// ================================
-
 export interface Job {
   id: string
-  title: string
-  company: string
-  location: string
-  description: string
+  titulo: string
+  empresa: string
+  ubicacion: string
+  descripcion: string
   data: JobData
   content?: JobContent
 }
 
 export interface JobData {
   technology: string[]
-  modality: "remote" | "onsite" | "hybrid"
-  level: "junior" | "mid" | "senior"
+  modalidad: string
+  nivel: string
 }
 
 export interface JobContent {
@@ -29,31 +21,27 @@ export interface JobContent {
   about: string
 }
 
-// ================================
-// DTOs
-// ================================
-
-// Para crear - sin id
 export type CreateJobDTO = Omit<Job, "id">
 
-// Para actualizar - todo opcional
 export type UpdateJobDTO = Partial<CreateJobDTO>
 
-// ================================
-// FILTROS
-// ================================
-
 export interface JobFilters {
-  tech?: string
-  modality?: JobData["modality"]
-  level?: JobData["level"]
+  text?: string
+  technology?: string
+  type?: string
+  level?: string
+  limit?: number
+  offset?: number
 }
 
-// ================================
-// RESPUESTAS DE API
-// ================================
+export interface PaginatedResponse {
+  data: Job[]
+  total: number
+  limit: number
+  offset: number
+}
 
 export interface ApiError {
-  message: string
-  errors?: unknown[]
+  error: string
+  details?: unknown[]
 }

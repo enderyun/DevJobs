@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "type": "module",
   "description": "DevJobs Express API",
-  "main": "src/app.js",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "tsx watch src/app.js",
-    "test": "NODE_ENV=test node --test src/app.test.js",
-    "testw": "NODE_ENV=test node --watch --test src/app.test.js",
+    "start": "tsx src/app.ts",
+    "dev": "tsx watch src/app.ts",
+    "test": "NODE_ENV=test tsx --test src/app.test.ts",
+    "testw": "NODE_ENV=test tsx --watch --test src/app.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

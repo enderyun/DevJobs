@@ -1,14 +1,15 @@
-import { db } from './database.ts'
+import { db } from "./database.js"
+import jobs from "../data/jobs.json" with { type: "json" }
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS jobs (
     id TEXT PRIMARY KEY,
-    title TEXT NOT NULL,
-    company TEXT NOT NULL,
-    location TEXT NOT NULL,
-    description TEXT NOT NULL,
-    modality TEXT NOT NULL CHECK(modality IN ('remote', 'onsite', 'hybrid')),
-    level TEXT NOT NULL CHECK(level IN ('junior', 'mid', 'senior'))
+    titulo TEXT NOT NULL,
+    empresa TEXT NOT NULL,
+    ubicacion TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    modalidad TEXT NOT NULL,
+    nivel TEXT NOT NULL
   );
 
   CREATE TABLE IF NOT EXISTS job_technologies (
@@ -28,35 +29,48 @@ db.exec(`
   );
 `)
 
-const insertJob = db.prepare(`
-  INSERT OR IGNORE INTO jobs (id, title, company, location, description, modality, level)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`)
+const existingCount = (db.prepare("SELECT COUNT(*) as count FROM jobs").get() as { count: number }).count
 
-const insertTech = db.prepare(`
-  INSERT OR IGNORE INTO job_technologies (job_id, technology) VALUES (?, ?)
-`)
+if (existingCount > 0) {
+  console.log(`Base de datos ya contiene ${existingCount} jobs, saltando seed`)
+} else {
+  const insertJob = db.prepare(`
+    INSERT OR IGNORE INTO jobs (id, titulo, empresa, ubicacion, descripcion, modalidad, nivel)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `)
 
-const seed = db.transaction(() => {
-  insertJob.run('1', 'Senior Frontend Developer', 'Tech Corp', 'Madrid, Spain',
-    'Looking for a senior frontend developer', 'hybrid', 'senior')
-  insertTech.run('1', 'React')
-  insertTech.run('1', 'TypeScript')
-  insertTech.run('1', 'CSS')
+  const insertTech = db.prepare(`
+    INSERT OR IGNORE INTO job_technologies (job_id, technology) VALUES (?, ?)
+  `)
 
-  insertJob.run('2', 'Full Stack Developer', 'StartupX', 'Remote',
-    'Join our team as a full stack developer', 'remote', 'mid')
-  insertTech.run('2', 'Node.js')
-  insertTech.run('2', 'React')
-  insertTech.run('2', 'PostgreSQL')
+  const insertContent = db.prepare(`
+    INSERT OR IGNORE INTO job_content (job_id, description, responsibilities, requirements, about)
+    VALUES (?, ?, ?, ?, ?)
+  `)
 
-  insertJob.run('3', 'Junior Backend Developer', 'FinTech Solutions', 'Barcelona, Spain',
-    'Great opportunity for junior developers', 'onsite', 'junior')
-  insertTech.run('3', 'Node.js')
-  insertTech.run('3', 'TypeScript')
-  insertTech.run('3', 'MongoDB')
-})
+  const seed = db.transaction(() => {
+    for (const job of jobs) {
+      insertJob.run(
+        job.id, job.titulo, job.empresa, job.ubicacion, job.descripcion,
+        job.data.modalidad,
+        job.data.nivel
+      )
 
-seed()
+      if (Array.isArray(job.data.technology)) {
+        for (const tech of job.data.technology) {
+          insertTech.run(job.id, tech)
+        }
+      }
 
-console.log('Base de datos inicializada')
+      if (job.content) {
+        insertContent.run(
+          job.id, job.content.description, job.content.responsibilities,
+          job.content.requirements, job.content.about
+        )
+      }
+    }
+  })
+
+  seed()
+  console.log(`Base de datos inicializada con ${jobs.length} jobs`)
+}

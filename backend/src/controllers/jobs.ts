@@ -2,48 +2,63 @@ import type { Request, Response } from "express"
 import { DEFAULTS } from "../config.js"
 import { JobModel } from "../models/job.js"
 
+function qs(v: unknown): string | undefined {
+  return typeof v === "string" ? v : undefined
+}
+
 export class JobController {
   static async getAll(req: Request, res: Response) {
     const { text, level, type, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = req.query
 
-    const {jobs, total} = await JobModel.getAll({text, level, type, technology, limit, offset})
+    const result = await JobModel.getAll({
+      text: qs(text),
+      level: qs(level),
+      type: qs(type),
+      technology: qs(technology),
+      limit: Number(limit),
+      offset: Number(offset)
+    })
 
-    // Import dinamico que puede servir si tenemos una base de datos con
-    // muchos empleos. En este caso es un archivo pequeño, asi que se usará
-    // el import normal
-    // const {default: jobs} = await import("./jobs.json", { with: { type: "json" } })
-    return res.json({data: jobs, total, limit, offset})
+    return res.json(result)
   }
 
-  static async getById(req: Request, res: Response) {
-    const { id } = req.params
+  static async getById(req: Request<{ id: string }>, res: Response) {
+    const id = req.params.id
 
     const job = await JobModel.getById(id)
 
     if (!job) {
-      return res.status(404).json({ error: 'Job not found' })
+      return res.status(404).json({ error: "Job not found" })
     }
 
     return res.json(job)
   }
 
   static async create(req: Request, res: Response) {
-    const { titulo, empresa, ubicacion, descripcion, data } = req.body
-
-    const newJob = await JobModel.create({titulo, empresa, ubicacion, descripcion, data})
+    const newJob = await JobModel.create(req.body)
 
     return res.status(201).json(newJob)
   }
 
-  static async update(req: Request, res: Response) {
-    // TODO
+  static async update(req: Request<{ id: string }>, res: Response) {
+    const id = req.params.id
+    const updated = await JobModel.update(id, req.body)
+
+    if (!updated) {
+      return res.status(404).json({ error: "Job not found" })
+    }
+
+    return res.json(updated)
   }
 
-  static async partialUpdate(req: Request, res: Response) {
-    // TODO
-  }
+  static async delete(req: Request<{ id: string }>, res: Response) {
+    const id = req.params.id
+    const deleted = await JobModel.delete(id)
 
-  static async delete(req: Request, res: Response) {
-    // TODO
+    if (!deleted) {
+      return res.status(404).json({ error: "Job not found" })
+    }
+
+    return res.status(204).send()
   }
 }
