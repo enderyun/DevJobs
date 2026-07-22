@@ -8,14 +8,13 @@
     "start": "node src/app.js",
     "dev": "tsx watch src/app.js",
     "test": "NODE_ENV=test node --test src/app.test.js",
-    "testw": "NODE_ENV=test node --watch --test src/app.test.js"
+    "testw": "NODE_ENV=test node --watch --test src/app.test.js",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "ai": "^7.0.32",
     "better-sqlite3": "^12.11.1",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.6.0",
     "zod": "^4.4.3"
   },
   "engines": {
@@ -23,6 +22,7 @@
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
     "tsx": "^4.23.1",
