@@ -30,3 +30,6 @@ dist-ssr
 # Workspace specific files 
 frontend/pnpm-lock.yaml
 backend/pnpm-lock.yaml
+
+# Local tooling
+.atl/
