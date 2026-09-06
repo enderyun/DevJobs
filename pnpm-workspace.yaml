@@ -1,7 +1,9 @@
 packages:
   - frontend
   - backend
+
 allowBuilds:
   '@swc/core': false
-  better-sqlite3: true
+  # v13+ ships N-API prebuilds; no local node-gyp build needed.
+  better-sqlite3: false
   esbuild: false
